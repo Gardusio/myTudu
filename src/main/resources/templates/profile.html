@@ -32,7 +32,7 @@
     	<a class="username" th:text="${currentCredentials.username}" th:href="@{/userDetails}">Username</a>
 		<br><br>
         <div>
-			<h4><span th:text="*{name}">Fabio Barbieri</span></h4>
+			<h4><span th:text="|*{name} *{surname}|">Fabio Barbieri</span></h4>
 			<h4>Account Created: </h4>
 			<div><h4 th:text="*{creationTime}"></h4></div>
 		</div>

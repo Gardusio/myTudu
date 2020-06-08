@@ -30,12 +30,6 @@ public class AuthController {
 	
 	@Autowired
 	private Session sessionData;
-	
-	@Autowired
-	private UserController userController;
-	
-	@Autowired
-	private ProjectController projectController;
 
 	
 	
@@ -47,11 +41,9 @@ public class AuthController {
 	}
 	
 	@RequestMapping(value="/save", method = RequestMethod.POST) //maybe u can call this signUp with post?
-	public String signUpUser(@Valid @ModelAttribute("userForm") Utente user,
-			BindingResult userBindingResult,
-			@Valid @ModelAttribute("credentialsForm") Credentials credentials,
-			BindingResult credentialsBindingResult,
-			Model model) {
+	public String signUpUser(@Valid @ModelAttribute("userForm") Utente user,BindingResult userBindingResult,
+			@Valid @ModelAttribute("credentialsForm") Credentials credentials,BindingResult credentialsBindingResult
+			,Model model) {
 		
 		this.userValidator.validate(user, userBindingResult);
 		this.credentialsValidator.validate(credentials, credentialsBindingResult);
@@ -62,7 +54,7 @@ public class AuthController {
 			this.credentialsService.saveCredentials(credentials);
 			model.addAttribute("registrationCompleted", "congrats!");
 			
-			if(this.sessionData.getCurrentCredentials()!=null) {
+			if(this.sessionData.getLoggedCredentials()!=null) {
 				return "redirect:/logout";
 			}
 			else
@@ -73,9 +65,10 @@ public class AuthController {
 		
 		@RequestMapping(value="/login", method = RequestMethod.GET)
 		public String customLoginHandler(Model model) {  
-			if(this.sessionData.getCurrentCredentials() != null) {
-				model.addAttribute(this.sessionData.getLoggedUser());
-				model.addAttribute(this.sessionData.getLoggedCredentials());
+			Credentials currentCredentials = this.sessionData.getLoggedCredentials(); 
+			if(currentCredentials != null) {
+				model.addAttribute("currentUser",currentCredentials);
+				model.addAttribute("currentCredentials",currentCredentials);
 				return "redirect:/profile";
 			}
 			return "loginPage";
@@ -90,24 +83,14 @@ public class AuthController {
 		
 		@RequestMapping(value="/profile", method = RequestMethod.GET)
 		public String showProfile(Model model) {
-			Utente currentUser = this.sessionData.getLoggedUser();
-			
-			setCurrentInControllers(currentUser);
-			
-			model.addAttribute("currentCredentials", this.sessionData.getLoggedCredentials());
-			model.addAttribute("currentUser", this.sessionData.getLoggedUser());
+			Credentials currentCredentials = this.sessionData.getLoggedCredentials(); 
+			model.addAttribute("currentCredentials", currentCredentials);
+			model.addAttribute("currentUser", currentCredentials.getUser());
 			return "profile";
 		}
 		
 		@RequestMapping(value="/admin",method = RequestMethod.GET)
 		public String admin(Model model) {
 			return "admin";
-		}
-	
-		
-		//maybe setCredentials will be better (EAGER)
-		private void setCurrentInControllers(Utente current) {
-			this.userController.setCurrentUser(current);
-			this.projectController.setCurrentUser(current);
 		}
 }

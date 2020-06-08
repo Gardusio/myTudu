@@ -1,9 +1,5 @@
 package my.spring.siw.tud.controllers;
 
-import java.util.List;
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.*;
+import my.spring.siw.tud.controllers.session.Session;
 import my.spring.siw.tud.model.Project;
 import my.spring.siw.tud.model.Task;
 import my.spring.siw.tud.model.Utente;
@@ -34,7 +30,8 @@ public class ProjectController {
 	@Autowired
 	private TaskService taskService;
 	
-	private Utente currentUser;
+	@Autowired
+	private Session sessionData;
 	
 	//need to better handle the owned proj..
 
@@ -49,7 +46,7 @@ public class ProjectController {
 	
 	@RequestMapping(value="/saveProject", method= RequestMethod.POST) 
 	public String saveProject(Model model, @ModelAttribute("project") Project toPersist, RedirectAttributes redirectAttributes) {
-		
+		Utente currentUser = sessionData.getLoggedUser(); 
 		toPersist.setOwner(currentUser);
 		List<Project> owned = this.projectService.findByOwner(currentUser); //extract method findAndAdd
 		owned.add(toPersist);
@@ -65,6 +62,7 @@ public class ProjectController {
 	
 	@RequestMapping(value="/showOwnedProjects", method=RequestMethod.GET)
 	public String showOwned(Model model) {
+		Utente currentUser = sessionData.getLoggedUser(); 
 		List<Project> owned = this.projectService.findByOwner(currentUser); 
 		model.addAttribute("currentUser",currentUser); 
 		model.addAttribute("projects",owned);
@@ -73,7 +71,7 @@ public class ProjectController {
 	
 	@RequestMapping(value="/deleteProject/{id}", method= RequestMethod.GET)
 	public String deleteProject(@PathVariable("id") Long id,Model model) {
-		
+		Utente currentUser = sessionData.getLoggedUser(); 
 		this.projectService.deleteById(id);
 		model.addAttribute("currentUser",currentUser);
 		List<Project> owned = this.projectService.findByOwner(currentUser);
@@ -83,6 +81,7 @@ public class ProjectController {
 	
 	@RequestMapping(value="/showVisibleProjects", method=RequestMethod.GET)
 	public String showVisible(Model model)  {
+		Utente currentUser = sessionData.getLoggedUser(); 
 		List<Project> visibles = this.projectService.findByMembers(currentUser);
 		model.addAttribute("visibleProjects", visibles);
 		model.addAttribute("currentUser", currentUser);
@@ -91,6 +90,7 @@ public class ProjectController {
 	
 	@RequestMapping(value="/projectPage/{id}", method= RequestMethod.GET)
 	public String showProject(Model model, @PathVariable("id") Long id) {
+		Utente currentUser = sessionData.getLoggedUser(); 
 		Project thisProject = this.projectService.findById(id);
 		List<Task> thisProjectTasks = this.taskService.getByProject(thisProject);
 		model.addAttribute("currentUser", currentUser);
@@ -105,10 +105,12 @@ public class ProjectController {
 			@PathVariable("id") Long projectId,
 			@RequestParam("memberUsername") String memberUsername) {
 		
+		Utente currentUser = sessionData.getLoggedUser(); 
 		List<Project> owned = this.projectService.findByOwner(currentUser);
-		Project addedTo = listFindById(projectId, owned);
 		
+		Project addedTo = listFindById(projectId, owned);
 		Utente newMember = this.userService.getByUsername(memberUsername);	
+		
 		if(newMember != null) { // && not already a member
 			addedTo.addMember(newMember);
 			newMember.addNewVisible(addedTo);
@@ -120,12 +122,13 @@ public class ProjectController {
 			model.addAttribute("failed", memberUsername +"the User do not exist");
 		}
 		
-		model.addAttribute("currentUser",this.currentUser);
+		model.addAttribute("currentUser",currentUser);
 		model.addAttribute("projects",owned);
 		return "ownedProjects";
 	}
 
-	//move this
+	
+	//move this util
 	private Project listFindById(Long projectId, List<Project> owned) {
 		Iterator<Project> it = owned.iterator();
 		
@@ -135,12 +138,6 @@ public class ProjectController {
 				return p;
 		}
 		return null;
-	}
-	
-	
-	
-	public void setCurrentUser(Utente currentUser) {
-		this.currentUser = currentUser;
 	}
 	
 	

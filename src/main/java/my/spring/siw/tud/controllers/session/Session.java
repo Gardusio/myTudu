@@ -28,8 +28,6 @@ public class Session {
 		return this.currentCredentials;
 	}
 	
-	public Credentials getCurrentCredentials() { return currentCredentials; }
-	
 	public Utente getLoggedUser() {
 		if(this.currentUser == null)
 			this.update();
