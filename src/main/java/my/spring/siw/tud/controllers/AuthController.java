@@ -54,7 +54,7 @@ public class AuthController {
 			this.credentialsService.saveCredentials(credentials);
 			model.addAttribute("registrationCompleted", "congrats!");
 			
-			if(this.sessionData.getLoggedCredentials()!=null) {
+			if(this.sessionData.getCurrentCredentials()!=null) {
 				return "redirect:/logout";
 			}
 			else
@@ -65,10 +65,9 @@ public class AuthController {
 		
 		@RequestMapping(value="/login", method = RequestMethod.GET)
 		public String customLoginHandler(Model model) {  
-			Credentials currentCredentials = this.sessionData.getLoggedCredentials(); 
-			if(currentCredentials != null) {
-				model.addAttribute("currentUser",currentCredentials);
-				model.addAttribute("currentCredentials",currentCredentials);
+			if(sessionData.getCurrentCredentials() != null) {
+				model.addAttribute("currentUser",sessionData.getLoggedUser());
+				model.addAttribute("currentCredentials",sessionData.getLoggedCredentials());
 				return "redirect:/profile";
 			}
 			return "loginPage";

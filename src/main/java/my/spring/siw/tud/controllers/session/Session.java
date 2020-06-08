@@ -21,7 +21,6 @@ public class Session {
 	@Autowired
 	private CredentialRepository credentialsRepo;
 	
-	
 	public Credentials getLoggedCredentials() {
 		if(this.currentCredentials == null)
 			this.update();
@@ -40,6 +39,10 @@ public class Session {
 		this.currentCredentials = this.credentialsRepo.findByUsername(currentUserDetails.getUsername());
 		this.currentCredentials.setPassword("[PROTECTED]");
 		this.currentUser = this.currentCredentials.getUser();
+	}
+	
+	public Credentials getCurrentCredentials() {
+		return currentCredentials;
 	}
 	
 	public void clear() {
