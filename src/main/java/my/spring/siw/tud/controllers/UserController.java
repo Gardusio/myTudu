@@ -41,6 +41,9 @@ public class UserController {
 	@RequestMapping(value="/editDetails", method = RequestMethod.POST)
 	public String editDetails(Model model, @RequestParam("username") String username, @RequestParam("password") String password) {
 		Credentials currentCredentials = sessionData.getLoggedCredentials();
+		
+		//NEED TO VALIDATE CREDENTIALS!
+		
 		currentCredentials.setPassword(password);
 		currentCredentials.setUsername(username);
 		
@@ -48,7 +51,7 @@ public class UserController {
 		
 		model.addAttribute("changed", "Details changed");
 		model.addAttribute("currentCredentials",currentCredentials);
-		return "details"; 
+		return "redirect:/userDetails"; 
 	}
 
 }

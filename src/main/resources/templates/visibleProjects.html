@@ -13,10 +13,10 @@
 <div th:text="${currentUser.name}"></div>
 <div>
 
-<ul>
+<ul> <!-- go to visibleProjectPage instead -->
 	<li th:each="project : ${visibleProjects}">
 	<div>
-	<a th:href="@{'/projectPage' + '/' + ${project.id}}" th:text="|${project.name}: ${project.description}|"></a>
+	<a th:href="@{'/visibleProjectPage' + '/' + ${project.id}}" th:text="|${project.name}: ${project.description}|"></a>
 	</div>
 	</li>
 </ul>

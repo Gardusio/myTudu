@@ -6,6 +6,7 @@
 	<link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
 	<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css}">
 	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+
 </head>
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
@@ -77,26 +78,26 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 </style>
 
-<body class="body" th:object="${currentCredentials}">
+<body th:object="${thisProject}">
 
-<h3 th:text ="*{user.name}"></h3>
-	<div><h4 th:if="${changed}" th:text="${changed}"></h4></div>
+<div th:text="*{name}">:  </div> <span th:text="*{description}"></span>
+
+<div><h2>Tasks: </h2></div>
+
 <div>
-	<button class="open-button" onclick="openForm()">Edit</button>
-		<div class="form-popup" id="myForm"> 
-  		<form th:action="@{'/editDetails'}" method = "POST" class="form-container">
-   			<h1>Edit your account details</h1>
-    		<label for="username"><b>Change your Username</b></label>
-    		<input type="text" placeholder="Enter a new username" th:name="username" required>
-    		<label for="password"><b>Change your Password</b></label>
-    		<input type="text" placeholder="Enter a new password" th:name="password" required>
+<ul>
+	<li th:each="task : ${tasks}"> 
+	<div>
+		<a th:text="${task.name} " th:href="@{'/taskPage' + '/' + ${task.id}}">taskName</a> <!-- visibleTask are going to be here-->
+		COMMENTS
+  	</div>
+	</li>
+</ul>
+</div>
 
-    		<button type="submit" class="btn">Submit</button>
-    		<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-  		</form>
-  		</div>
-	</div>
-
+<div style="margin-top:100px">
+<a th:href="@{/profile}">Back to home</a>
+</div>
 
 <script>
 function openForm() {
@@ -106,10 +107,8 @@ function openForm() {
 function closeForm() {
   document.getElementById("myForm").style.display = "none";
 }
+
 </script>
-
 </body>
-
-
 
 </html>

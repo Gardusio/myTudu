@@ -99,6 +99,18 @@ public class ProjectController {
 		return "project";
 	}
 	
+	@RequestMapping(value="/visibleProjectPage/{id}", method= RequestMethod.GET)
+	public String showVisibleProject(Model model, @PathVariable("id") Long id) {
+		Utente currentUser = sessionData.getLoggedUser(); 
+		Project thisProject = this.projectService.findById(id);
+		List<Task> thisProjectTasks = this.taskService.getByProject(thisProject);
+		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("thisProject",thisProject);
+		model.addAttribute("tasks", thisProjectTasks);
+		return "project";
+	}
+	
+	
 	//why i cant get projects/user from model?
 	@RequestMapping(value="/addMember/{id}", method=RequestMethod.POST)
 	public String addMember(Model model,
