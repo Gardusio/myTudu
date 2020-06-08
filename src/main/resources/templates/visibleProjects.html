@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Home</title>
+	<link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
+	<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+
+</head>
+
+<body>
+<div th:text="${currentUser.name}"></div>
+<div>
+
+<ul>
+	<li th:each="project : ${visibleProjects}">
+	<div>
+	<a th:href="@{'/projectPage' + '/' + ${project.id}}" th:text="|${project.name}: ${project.description}|"></a>
+	</div>
+	</li>
+</ul>
+</div>
+
+</body>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Home</title>
+	<link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
+	<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+
+</head>
+
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: fixed;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+</style>
+
+<body th:object="${thisProject}">
+
+<div th:text="*{name}">:  </div> <span th:text="*{description}"></span>
+
+<div><h2>Tasks: </h2></div>
+
+
+
+<div>
+<ul>
+	<li th:each="task : ${tasks}"> 
+	<div>
+		<a th:text="${task.name} " th:href="@{'/taskPage' + '/' + ${task.id}}">taskName</a>
+		<form th:action="@{'/deleteTask' + '/' + ${task.id}}" method="GET">
+		<input type="submit" value="delete">
+		</form>
+
+		<button class="open-button" onclick="openAssignForm()">Assign task</button>
+		
+	
+		
+		<div class="form-popup" id="assign">
+  		<form th:action="@{'/assignTask' + '/' + ${task.id}}" method = "POST" class="form-container">
+   			<h1>Assign this task to a member</h1>
+    		<label for="username"><b>Insert Member Username</b></label>
+    		<input type="text" placeholder="Enter Username" th:name="username" required>
+
+    		<button type="submit" class="btn">Assign</button>
+    		<button type="button" class="btn cancel" onclick="closeAssignForm()">Close</button>
+  		</form>
+
+  		
+  		</div>
+  	</div>
+	</li>
+</ul>
+</div>
+
+<div style="margin:300px">
+	<button class="open-button" onclick="openForm()">Add new Task</button>
+		<div class="form-popup" id="myForm"> <!-- tryin to pass the entire proj -->
+  		<form th:action="@{'/newTask' + '/' + ${thisProject.id}}" method = "POST" class="form-container">
+   			<h1>Enter Task details</h1>
+    		<label for="taskName"><b>Task Name</b></label>
+    		<input type="text" placeholder="Enter Task Name" th:name="taskName" required>
+    		<label for="taskName"><b>Description</b></label>
+    		<input type="text" placeholder="Enter Task Name" th:name="taskDescription" required>
+
+    		<button type="submit" class="btn">Add</button>
+    		<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  		</form>
+  		</div>
+</div>
+
+
+<div style="margin-top:100px">
+<a th:href="@{/profile}">Back to home</a>
+	<div th:if="${couldNotAssign}" th:text="${couldNotAssign}"></div>
+		<div th:if="${assigned}" th:text="${assigned}"></div>
+</div>
+
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+function openAssignForm() {
+	  document.getElementById("assign").style.display = "block";
+	}
+
+	function closeAssignForm() {
+	  document.getElementById("assign").style.display = "none";
+	}
+</script>
+</body>
+
+</html>

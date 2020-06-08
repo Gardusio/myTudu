@@ -1,0 +1,100 @@
+
+:root {
+  --baseColor: #606468;
+}
+
+:root {
+  --htmlFontSize: 100%;
+  --bodyBackgroundColor: #2c3338;
+  --bodyColor: var(--baseColor);
+  --bodyFontFamily: 'Raleway';
+  --bodyFontFamilyFallback: sans-serif;
+  --bodyFontSize: 0.875rem;
+  --bodyFontWeight: 400;
+  --bodyLineHeight: 1.5;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: var(--htmlFontSize);
+  height: 100%;
+}
+
+body {
+  background-color: var(--bodyBackgroundColor);
+  color: var(--bodyColor);
+  font-family: var(--bodyFontFamily), var(--bodyFontFamilyFallback);
+  font-size: var(--bodyFontSize);
+  font-weight: var(--bodyFontWeight);
+  height: 100%;
+  line-height: var(--bodyLineHeight);
+  margin: 0;
+  min-height: 100vh;
+}
+
+hr {
+  border-color: #B7ADCF;
+}
+
+header {
+  color: #ea4c88;
+  font-size: 45px;
+  text-align: center;
+}
+
+h1 {
+  font-size:50px;
+  color: #ea4c88;
+  margin:50px;
+}
+
+h4 {
+	color: #87bcde;
+	font-size: 30px;
+	text-align: center;
+}
+
+a:link, a:visited {
+  background-color: #ea4c88;
+  color: white;
+  padding: 14px 25px;
+  margin-right:12px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+a:hover, a:active {
+  background-color: #7FFFD4;
+  color: #2c3338;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.buttons {
+  margin-top:60px;
+  align-items: center;
+  display: flex;
+  flex-direction: rows;
+  justify-content: center;
+}
+
+.paragraph {
+  text-align: center;
+  justify-content: center;
+}
+
+.menu {
+	margin-top: 60px;
+    color: white;
+    font-size: 22px;
+}
+
+.tud {
+color:#7FFFD4;
+}
+
+.botH4 {
+	margin-top: 60px;
+}

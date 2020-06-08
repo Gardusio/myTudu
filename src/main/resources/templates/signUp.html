@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Tudù SignUp</title>
+	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+	<link rel="stylesheet" th:href="@{/css/signUpCSS.css}">
+</head>
+
+<body class="align">
+	<h1>Welcome!</h1>
+	<header> <strong>Tudù</strong> </header>
+	
+	<div class="grid">
+		<form th:action="@{/save}" method="POST" class="form login" id="signUpForm">
+			<div class="form__field">
+				<input th:field="${userForm.name}" id="name" type="text" name="name" class="form__input" placeholder="Name" required>
+			</div>
+			<p  class="form_field" th:if="${#fields.hasErrors('userForm.name')}"
+				   th:errors="${userForm.name}" ></p>
+
+			<div class="form__field">
+				<input th:field="${userForm.surname}" id="surname" type="text" name="surname" class="form__input" placeholder="Surname" required>
+			</div>
+			<p class="form_field"  th:if="${#fields.hasErrors('userForm.surname')}"
+				   th:errors="${userForm.surname}" style="color:white"></p>
+
+			<div class="form__field">
+				<label for="login__username"><i class="fa fa-user" style="color: #B7ADCF"></i></label> 
+				<input th:field="${credentialsForm.username}" id="login__username" type="text" name="username" class="form__input" placeholder="Username" required>
+			</div>
+			<p class="form_field" th:if="${#fields.hasErrors('credentialsForm.username')}"
+			   th:errors="${credentialsForm.username}" style="color:red"></p>
+
+			<div class="form__field">
+				<label for="password"><i class="fa fa-lock" style="color: #B7ADCF"></i></label> 
+				<input th:field="${credentialsForm.password}" id="password" type="password" name="password" class="form__input" placeholder="Password" required>
+			</div>
+			<p class="form_field"  th:if="${#fields.hasErrors('credentialsForm.password')}"
+				   th:errors="${credentialsForm.password}" style="color:red"></p>
+
+			<div class="form__field">
+				<input type="submit" value="SIGN UP">
+			</div>
+		</form>
+	</div>
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Tudù SignUp</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<style>
+
+
+</style>
+
+<body class="align">
+	<header>
+		<strong>Tudù</strong>
+	</header>
+	<div class="grid">
+
+		<form action="registrami" method="POST" class="form login">
+
+			<div class="form__field">
+
+				<input id="name" type="text" name="name" class="form__input"
+					placeholder="Name" required>
+			</div>
+
+			<div class="form__field">
+
+				<input id="surname" type="text" name="surname" class="form__input"
+					placeholder="Surname" required>
+			</div>
+
+			<div class="form__field">
+				<label for="login__username"><i class="fa fa-user"
+					style="color: #B7ADCF"></i></label> <input id="login__username" type="text"
+					name="username" class="form__input" placeholder="Username" required>
+			</div>
+
+			<div class="form__field">
+				<label for="password"><i class="fa fa-lock"
+					style="color: #B7ADCF"></i></label> <input id="password" type="password"
+					name="password" class="form__input" placeholder="Password" required>
+			</div>
+
+			<div class="form__field">
+				<input type="submit" value="SIGN UP">
+			</div>
+		</form>
+
+
+	</div>
+
+</body>
+</html>-->

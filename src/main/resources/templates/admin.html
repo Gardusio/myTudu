@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel=stylesheet href="css/adminCSS.css">
+<title>Home</title>
+</head>
+
+
+<body>
+	<header><h1>Admin Menu</h1></header>
+	<div>
+		<h4>Admin: </h4> <h5 th:text="@{currentCredentials.username}"></h5>
+		<div>
+		<a>Delete a User</a>
+		<a>Delete a Project</a>
+		</div>
+	</div>
+	
+</body>

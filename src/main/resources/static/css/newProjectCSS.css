@@ -1,0 +1,43 @@
+@use postcss-cssnext;
+
+body {
+	background-color: #363b41;
+	font-family: 'Open Sans';
+	font-size: 0.875rem;
+	font-weight: 400;
+}
+
+header {
+	color: #ea4c88;
+}
+
+a {
+	color: #ea4c88;
+	margin-left: 10px;
+}
+
+.align {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+input[type='submit'] {
+	background-color: #7FFFD4;
+	border-color: #7FFFD4;
+	text-color: #fff;
+	text-transform: uppercase;
+	margin: 30px;
+	color: #363b41;
+	font-family: 'Open Sans';
+	font-size: 0.875rem;
+	font-weight: 400;
+	line-height: 1.5;
+}
+
+.form__input {
+	font-family: 'Open Sans';
+	font-size: 0.875rem;
+	font-weight: 400;
+}

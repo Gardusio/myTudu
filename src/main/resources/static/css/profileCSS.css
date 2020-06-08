@@ -1,0 +1,97 @@
+:root {
+	--rosa: #EA4C88;
+	--acquamarine:#7FFFD4;
+	--bodyGray: #2c3338;
+	--welcomeBlue: #B7ADCF;
+	}
+
+.body {
+  background-color: #2c3338;
+  font-family: 'Raleway';
+}
+
+a:hover, a:active {
+  color:#7FFFD4;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+  colo:black;
+}
+
+#sidebar {
+  background-color: #ea4c88;#87bcde;#7FFFD4;pink;
+  color: #2c3338;
+  font-weight: 600;
+  font-family: 'Raleway';
+}
+
+#desc {
+  font-size:20px; 
+  font-family: 'Raleway';
+  color: #2c3338;
+  font-weight: 200;
+}
+
+
+#tudu {
+  color: var(--acquamarine);
+  text-align: center;
+  font-size: 50px;
+  font-family: 'Raleway';
+  font-weight:700;
+}
+
+.menu {
+  font-size:50px;
+  font-weight:700;
+  text-align: center;
+
+}
+
+.username {
+  font-size:50px;
+  font-weight:900;
+  text-align: center;
+  font-family: 'Droid Sans';
+  margin-bottom:10px;
+  color:white;
+}
+
+#logoutCard {
+background-color: white;
+text-align:center;
+align-items: flex-end;
+}
+
+h4 {
+font-weight:500;
+color:white;
+font-family='Raleway'
+}
+
+
+.titleProject {
+  font-size:30px;
+  font-weight:700;
+  font-family: 'Raleway';
+  color: #2c3338;
+}
+
+.li {
+margin-top:40px;
+font-size:20px;
+}
+
+.details {
+margin-top:10px;
+text-align: center;
+}
+
+.column {
+margin-left:1%;
+}
