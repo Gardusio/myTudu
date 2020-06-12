@@ -60,7 +60,7 @@ public class AuthController {
 			else
 				return "loginPage";		
 		}
-		return "redirect:/save";
+		return "signUp";
 	}
 		
 		@RequestMapping(value="/login", method = RequestMethod.GET)

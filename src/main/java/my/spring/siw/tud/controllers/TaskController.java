@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import my.spring.siw.tud.controllers.session.Session;
+import my.spring.siw.tud.model.Comment;
 import my.spring.siw.tud.model.Project;
 import my.spring.siw.tud.model.Task;
 import my.spring.siw.tud.model.Utente;
+import my.spring.siw.tud.modelServices.CommentsService;
 import my.spring.siw.tud.modelServices.ProjectService;
 import my.spring.siw.tud.modelServices.TaskService;
 import my.spring.siw.tud.modelServices.UserService;
@@ -29,8 +32,15 @@ public class TaskController {
 	@Autowired
 	private ProjectService projectService; //??
 	
+	@Autowired
+	private CommentsService commentsService;
+	
+	@Autowired
+	private Session sessionData;
+	
 	private Task currentTask;
-
+	
+	
 	
 	@RequestMapping(value="/taskPage/{id}", method=RequestMethod.GET)
 	public String showTaskPage(@PathVariable("id") Long id, Model model) {
@@ -78,7 +88,8 @@ public class TaskController {
 		List<Utente> members = this.userService.getByVisibleProjects(project);
 		
 		if(assignTo == null || !(members.contains(assignTo))) { 
-			model.addAttribute("couldNotAssign", "this User is not a member of the Project");
+			String couldNotAssign ="this User is not a member of the Project";
+			model.addAttribute("couldNotAssign", couldNotAssign);
 		}
 		else {
 			task.setAssignedTo(assignTo); 
@@ -104,4 +115,34 @@ public class TaskController {
 		model.addAttribute("thisTask",t);
 		return "redirect:/taskPage" + "/" + t.getId().toString();
 	}
+	
+	@RequestMapping(value="/addComment/{id}", method= RequestMethod.POST)
+	private String addComment(Model model, @PathVariable("id") Long id, 
+			@RequestParam("comment") String newCommentText) {
+		
+		Task t = this.taskService.findById(id);
+		Project p = t.getThisProject();
+		Comment newComment = new Comment(newCommentText);
+		newComment.setUserCred(this.sessionData.getLoggedCredentials());
+		newComment.setTask(t);
+		t.addComment(newComment);
+		
+		this.commentsService.saveComment(newComment);
+		
+		model.addAttribute("thisProject", p);
+		model.addAttribute("tasks", p.getProjectTasks());
+	
+		if(p.getOwner().equals(this.sessionData.getLoggedCredentials().getUser()))
+			return "redirect:/projectPage/" + p.getId().toString();
+		return "redirect:/visibleProjectPage/" + p.getId().toString();
+	}
+	
+	
+	/*TODO
+	@RequestMapping(value="/deleteComment/{id}", method=RequestMethod.GET)
+	public String deleteTask(@PathVariable("id") Long id, Model model) {
+		return "";
+	}
+	*/
+
 }

@@ -1,7 +1,9 @@
 package my.spring.siw.tud.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 //import java.util.*;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -29,26 +31,24 @@ public class Task {
 
 	/*
 	 * estensione
-
 	@OneToMany(//will this be bidirectional? :mappedBy = " "
 			//if so, would this mean that tags are assignable just to specific tasks?
 			fetch = FetchType.EAGER,
 			cascade = CascadeType.REMOVE)
 	private List<Tag> taskTags;
 
-	
-	@OneToMany
-	@JoinColumn(name = "task")
-	private List<Comment> taskComments;
-*/
+*/	
+	@OneToMany(mappedBy="task", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
+	private List<Comment> comments;
+
 
 	public Task() {
-		//this.taskComments = new ArrayList<Comment>();
+		this.comments = new ArrayList<Comment>();
 		//this.taskTags = new ArrayList<Tag>();
 	}
 
 	public Task(String name,String desc) {
-		//this();
+		this();
 		this.name = name;
 		this.description = desc;
 		this.isCompleted = false;
@@ -84,11 +84,11 @@ public class Task {
 		this.taskTags.add(tag);
 	}
 	
-	public void addComment(Comment c) {
-		this.taskComments.add(c);	
-	}
 	*/
 	
+	public void addComment(Comment c) {
+		this.comments.add(c);	
+	}
 
 	/*
 	 * Getters n Setters
@@ -102,7 +102,7 @@ public class Task {
 	//public List<Tag> getTaskTags() { return taskTags; }
 	public Project getThisProject() { return project; }
 	public Utente getAssignedTo() { return assignedTo; }
-	//public List<Comment> getTaskComments() { return taskComments; }
+	public List<Comment> getComments() { return comments; }
 	
 	public void setCompleted(boolean isCompleted) { this.isCompleted = isCompleted; }
 	public void setCreationTime(LocalDateTime creationTime) { this.creationTime = creationTime; }
@@ -112,7 +112,7 @@ public class Task {
 	//public void setTaskTags(List<Tag> taskTags) { this.taskTags = taskTags; }
 	public void setThisProject(Project thisProject) { this.project = thisProject; }
 	public void setAssignedTo(Utente assignedTo) { this.assignedTo = assignedTo; }
-	//public void setTaskComments(List<Comment> taskComments) { this.taskComments = taskComments; }
+	public void setTaskComments(List<Comment> taskComments) { this.comments = taskComments; }
 	
 	/*
 	 * HashCode,Equals n ToString methods
@@ -131,6 +131,5 @@ public class Task {
 	
 	@Override
 	public int hashCode() { return this.name.hashCode() + this.description.hashCode() + this.getCreationTime().hashCode();	}
-
 
 }

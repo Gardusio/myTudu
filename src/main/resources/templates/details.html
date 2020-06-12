@@ -79,8 +79,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 <body class="body" th:object="${currentCredentials}">
 
-<h3 th:text ="*{user.name}"></h3>
-	<div><h4 th:if="${changed}" th:text="${changed}"></h4></div>
+<h3 th:text ="*{username}"></h3>
+
 <div>
 	<button class="open-button" onclick="openForm()">Edit</button>
 		<div class="form-popup" id="myForm"> 
@@ -95,7 +95,11 @@ body {font-family: Arial, Helvetica, sans-serif;}
     		<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
   		</form>
   		</div>
-	</div>
+ 
+ <h4 th:if="${changed}" th:text="${changed}"></h4>
+ </div>
+ 
+ <div></div>
 
 
 <script>

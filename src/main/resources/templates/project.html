@@ -80,46 +80,35 @@ body {font-family: Arial, Helvetica, sans-serif;}
 </style>
 
 <body th:object="${thisProject}">
-
-<div th:text="*{name}">:  </div> <span th:text="*{description}"></span>
-
-<div><h2>Tasks: </h2></div>
-
-
-
 <div>
-<ul>
-	<li th:each="task : ${tasks}"> 
-	<div>
-		<a th:text="${task.name} " th:href="@{'/taskPage' + '/' + ${task.id}}">taskName</a>
-		<form th:action="@{'/deleteTask' + '/' + ${task.id}}" method="GET">
-		<input type="submit" value="delete">
-		</form>
-
-		<button class="open-button" onclick="openAssignForm()">Assign task</button>
-		
+	<div th:text="*{name}">:</div> <span th:text="*{description}"></span>
 	
-		
-		<div class="form-popup" id="assign">
-  		<form th:action="@{'/assignTask' + '/' + ${task.id}}" method = "POST" class="form-container">
-   			<h1>Assign this task to a member</h1>
-    		<label for="username"><b>Insert Member Username</b></label>
-    		<input type="text" placeholder="Enter Username" th:name="username" required>
+	<div style="margin-bottom:20px">
+	<div>
+	<button class="open-button" onclick="openForm('edit')">Edit</button>
+		<div class="form-popup" id="edit" >
+  		<form th:action="@{'/editProject' + '/' + ${thisProject.id}}" method = "POST" class="form-container">
+   			<h1>Edit Project infos</h1>
+    		<label for="taskName"><b>Name</b></label>
+    		<input type="text" placeholder="New name" th:name="name">
+    		<label for="taskName"><b>Description</b></label>
+    		<input type="text" placeholder="New description" th:name="description" required>
 
-    		<button type="submit" class="btn">Assign</button>
-    		<button type="button" class="btn cancel" onclick="closeAssignForm()">Close</button>
+    		<button type="submit" class="btn">Submit</button>
+    		<button type="button" class="btn cancel" onclick="closeForm('edit')">Close</button>
   		</form>
-
-  		
+  		</div> 	
   		</div>
-  	</div>
-	</li>
-</ul>
+</div>
+	
+	<h2 style="margin-top:60px">Tasks:</h2>
+	
 </div>
 
-<div style="margin:300px">
-	<button class="open-button" onclick="openForm()">Add new Task</button>
-		<div class="form-popup" id="myForm"> <!-- tryin to pass the entire proj -->
+
+<div style="margin-top:20px">
+	<button class="open-button" onclick="openForm('newTask')">Add new Task</button>
+		<div class="form-popup" id="newTask">
   		<form th:action="@{'/newTask' + '/' + ${thisProject.id}}" method = "POST" class="form-container">
    			<h1>Enter Task details</h1>
     		<label for="taskName"><b>Task Name</b></label>
@@ -128,33 +117,81 @@ body {font-family: Arial, Helvetica, sans-serif;}
     		<input type="text" placeholder="Enter Task Name" th:name="taskDescription" required>
 
     		<button type="submit" class="btn">Add</button>
-    		<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    		<button type="button" class="btn cancel" onclick="closeForm('newTask')">Close</button>
   		</form>
+  		</div> 	
+</div>
+
+
+<div>
+<ul style="margin-top:100px">
+	<li th:each="task : ${tasks}" style="margin-top:120px"> 
+		<a th:text="${task.name} " th:href="@{'/taskPage' + '/' + ${task.id}}">taskName</a>
+		<form th:action="@{'/deleteTask' + '/' + ${task.id}}" method="GET">
+		<input type="submit" value="delete">
+		</form>
+
+		<button class="open-button" onclick="openForm('assign')">Assign task</button>
+		<div class="form-popup" id="assign">
+  		<form th:action="@{'/assignTask' + '/' + ${task.id}}" method = "POST" class="form-container">
+   			<h1>Assign this task to a member</h1>
+    		<label for="username"><b>Insert Member Username</b></label>
+    		<input type="text" placeholder="Enter Username" th:name="username" required>
+
+    		<button type="submit" class="btn">Assign</button>
+    		<button type="button" class="btn cancel" onclick="closeForm('assign')">Close</button>
+  		</form>	
   		</div>
+  	
+  	<div style="margin-top:60px"> <!-- not showed -->
+  	<h6 th:if="${couldNotAssign}" th:text="${couldNotAssign}"></h6> 
+	<h6 th:if="${assigned}" th:text="${assigned}"></h6>  	
+  	</div>	
+  	
+  		<ul th:if="${task.comments}">
+  			<li th:each="comment : ${task.comments}" style="margin-top:100px">
+  			<div th:text="${comment.userCred.username}"></div>
+  			<div th:text="${comment.text}"></div>
+  			<div th:text="${comment.creationTime}"></div>
+  			
+  			<form th:if="${comment.userCred.user} == ${currentUser}" th:action="@{'/deleteComment' + '/' + ${comment.id}}" method="GET">
+			<input type="submit" value="delete">
+			</form>
+  			
+  			</li>
+  		</ul>
+  		
+  		<div>
+  		<button class="open-button" onclick="openForm('comment')">Add Comment</button>
+		
+		<div class="form-popup" id="comment">
+  		<form th:action="@{'/addComment' + '/' + ${task.id}}" method = "POST" class="form-container">
+    		<label for="commentText"><b>Post a Comment</b></label>
+    		<input type="text" placeholder="Write a Comment" th:name="comment" required>
+
+    		<button type="submit" class="btn">Post</button>
+    		<button type="button" class="btn cancel" onclick="closeForm('comment')">Close</button>
+  		</form>	
+  		</div>
+  		</div>
+  		
+	</li>
+</ul>
 </div>
 
 
-<div style="margin-top:100px">
-<a th:href="@{/profile}">Back to home</a>
-	<div th:if="${couldNotAssign}" th:text="${couldNotAssign}"></div>
-		<div th:if="${assigned}" th:text="${assigned}"></div>
-</div>
+
+
 
 <script>
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
+function openForm(form) {
+  document.getElementById(form).style.display = "block";
 }
 
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
+function closeForm(form) {
+  document.getElementById(form).style.display = "none";
 }
-function openAssignForm() {
-	  document.getElementById("assign").style.display = "block";
-	}
 
-	function closeAssignForm() {
-	  document.getElementById("assign").style.display = "none";
-	}
 </script>
 </body>
 

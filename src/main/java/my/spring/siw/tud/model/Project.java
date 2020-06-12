@@ -30,7 +30,7 @@ public class Project {
 
 	@OneToMany(mappedBy = "project",
 			cascade = CascadeType.REMOVE,
-			fetch = FetchType.LAZY)
+			fetch = FetchType.LAZY) //ALERT, but still...retrieve projects without it own tasks is not the best choise in our interface
 	private List<Task> projectTasks;
 
 	/* estensione

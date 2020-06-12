@@ -31,7 +31,9 @@ public class ProjectController {
 	private TaskService taskService;
 	
 	@Autowired
-	private Session sessionData;
+	private Session sessionData; 
+	
+	//controller can be used better to avoid db txs
 	
 	//need to better handle the owned proj..
 
@@ -107,7 +109,7 @@ public class ProjectController {
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("thisProject",thisProject);
 		model.addAttribute("tasks", thisProjectTasks);
-		return "project";
+		return "visibleProjectPage";
 	}
 	
 	
@@ -128,17 +130,32 @@ public class ProjectController {
 			newMember.addNewVisible(addedTo);
 			this.userService.saveUser(newMember);
 			this.projectService.saveProject(addedTo); 
-			model.addAttribute("added", memberUsername +"added succesfully");
+			model.addAttribute("added", memberUsername +" added succesfully"); 
 		}
 		else {
-			model.addAttribute("failed", memberUsername +"the User do not exist");
+			model.addAttribute("failed", memberUsername +" the User do not exist");  
 		}
 		
 		model.addAttribute("currentUser",currentUser);
 		model.addAttribute("projects",owned);
 		return "ownedProjects";
 	}
+	
+	@RequestMapping(value="/editProject/{id}", method =RequestMethod.POST)
+	public String editProject(Model model, @PathVariable("id") Long id,
+			@RequestParam("name") String newName,
+			@RequestParam("description") String newDesc) {
+		Project p = this.projectService.findById(id);
+		
+		if(newName != null) {
+			p.setName(newName);
+		}
+		
+		p.setDescription(newDesc);
+		this.projectService.saveProject(p);
 
+		return "redirect:/projectPage/" + id.toString();
+	}
 	
 	//move this util
 	private Project listFindById(Long projectId, List<Project> owned) {

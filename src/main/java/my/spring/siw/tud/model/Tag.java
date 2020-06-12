@@ -38,10 +38,4 @@ public class Tag {
 		return this.name.hashCode() + this.color.hashCode();
 	}
 	
-	//TODO
-	@Override
-	public String toString() {
-		return "";
-	}
-	
 }

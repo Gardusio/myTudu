@@ -10,5 +10,6 @@ public interface ProjectRepository extends CrudRepository<Project, Long> {
 	public List<Project> findByMembers(Utente member);
 	
 	public List<Project> findByOwner(Utente owner);
+	
 
 }

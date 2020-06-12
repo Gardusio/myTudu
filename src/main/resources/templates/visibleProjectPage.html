@@ -89,7 +89,33 @@ body {font-family: Arial, Helvetica, sans-serif;}
 	<li th:each="task : ${tasks}"> 
 	<div>
 		<a th:text="${task.name} " th:href="@{'/taskPage' + '/' + ${task.id}}">taskName</a> <!-- visibleTask are going to be here-->
-		COMMENTS
+		<div>
+  		<button class="open-button" onclick="openForm('comment')">Add Comment</button>
+		
+		<div class="form-popup" id="comment">
+  		<form th:action="@{'/addComment' + '/' + ${task.id}}" method = "POST" class="form-container">
+    		<label for="commentText"><b>Post a Comment</b></label>
+    		<input type="text" placeholder="Write a Comment" th:name="comment" required>
+
+    		<button type="submit" class="btn">Post</button>
+    		<button type="button" class="btn cancel" onclick="closeForm('comment')">Close</button>
+  		</form>	
+  		</div>
+  		</div>
+		
+		
+		<ul th:if="${task.comments}">
+  			<li th:each="comment : ${task.comments}" style="margin-top:100px">
+  			<div th:text="${comment.userCred.username}"></div>
+  			<div th:text="${comment.text}"></div>
+  			<div th:text="${comment.creationTime}"></div>
+  			
+  			<form th:if="${comment.userCred.user} == ${currentUser}" th:action="@{'/deleteComment' + '/' + ${comment.id}}" method="GET">
+			<input type="submit" value="delete">
+			</form>
+  			
+  			</li>
+  		</ul>
   	</div>
 	</li>
 </ul>
@@ -100,12 +126,12 @@ body {font-family: Arial, Helvetica, sans-serif;}
 </div>
 
 <script>
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
+function openForm(form) {
+  document.getElementById(form).style.display = "block";
 }
 
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
+function closeForm(form) {
+  document.getElementById(form).style.display = "none";
 }
 
 </script>

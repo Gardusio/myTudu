@@ -85,16 +85,14 @@ body {font-family: Arial, Helvetica, sans-serif;}
 <ul>
 	<li th:each="project : ${projects}">
 	<div>
+		<div>
 		<a th:href="@{'/projectPage' + '/' + ${project.id}}" th:text="|${project.name}:  ${project.description}|"></a>
 		<form th:action="@{'/deleteProject' + '/' + ${project.id}}" method="GET">
 		<input type="submit" value="delete"> 
 		</form>
-		
+		</div>
 		<button class="open-button" onclick="openForm()">Add member</button>
-		
-		<div th:if="${added}" th:text="${added}"></div>
-		<div th:if="${failed}" th:text="${failed}"></div>
-		
+
 		<div class="form-popup" id="myForm">
   		<form th:action="@{'/addMember' + '/' + ${project.id}}" method = "POST" class="form-container">
    			<h1>Add a member to this project</h1>
@@ -106,6 +104,11 @@ body {font-family: Arial, Helvetica, sans-serif;}
   		</form>
   		</div>
 	</div>
+	<div style="margin-top:60px">
+		<div th:if="${added}" th:text="${added}"></div>
+		<div th:if="${failed}" th:text="${failed}"></div>
+	</div>
+	
 	</li>
 </ul>
 </div>
