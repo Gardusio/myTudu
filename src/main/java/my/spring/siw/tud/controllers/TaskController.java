@@ -47,6 +47,7 @@ public class TaskController {
 		Task thisTask = this.taskService.findById(id);
 		this.currentTask = thisTask;
 		model.addAttribute("thisTask", thisTask);
+		model.addAttribute("currentUser", sessionData.getLoggedCredentials().getUser());
 		return "task";
 	}
 	
@@ -57,7 +58,7 @@ public class TaskController {
 		
 		Task newTask = new Task(taskName,taskDescription);
 		Project proj = this.projectService.findById(id);
-		newTask.setThisProject(proj);
+		newTask.setProject(proj);
 		proj.addTask(newTask);
 		
 		this.taskService.saveTask(newTask);
@@ -69,7 +70,7 @@ public class TaskController {
 	@RequestMapping(value="/deleteTask/{id}", method=RequestMethod.GET)
 	public String deleteTask(@PathVariable("id") Long id, Model model) {
 		Task task=this.taskService.findById(id);
-		Project thisProject = task.getThisProject();
+		Project thisProject = task.getProject();
 		this.taskService.deleteTask(task);
 		model.addAttribute("thisProject",thisProject);
 		model.addAttribute("tasks",thisProject.getProjectTasks()); //could throw LazyExcept
@@ -83,7 +84,7 @@ public class TaskController {
 			@RequestParam("username") String memberUsername) {
 		
 		Task task=this.taskService.findById(id);
-		Project project = task.getThisProject();
+		Project project = task.getProject();
 		Utente assignTo = this.userService.getByUsername(memberUsername); 
 		List<Utente> members = this.userService.getByVisibleProjects(project);
 		
@@ -121,7 +122,7 @@ public class TaskController {
 			@RequestParam("comment") String newCommentText) {
 		
 		Task t = this.taskService.findById(id);
-		Project p = t.getThisProject();
+		Project p = t.getProject();
 		Comment newComment = new Comment(newCommentText);
 		newComment.setUserCred(this.sessionData.getLoggedCredentials());
 		newComment.setTask(t);
@@ -138,11 +139,18 @@ public class TaskController {
 	}
 	
 	
-	/*TODO
+
 	@RequestMapping(value="/deleteComment/{id}", method=RequestMethod.GET)
-	public String deleteTask(@PathVariable("id") Long id, Model model) {
-		return "";
+	public String deleteComment(@PathVariable("id") Long id, Model model) {
+		Comment toDelete = this.commentsService.getCommentById(id);
+		Project thisProject = toDelete.getTask().getProject();
+		
+		this.commentsService.deleteComment(toDelete);
+		
+		//model.addAttribute("tasks",tasks);
+		//model.addAttribute("thisProject",thisProject);
+		//model.addAttribute("currentUser", sessionData.getLoggedCredentials().getUser());
+		return "redirect:/projectPage/" + thisProject.getId().toString();
 	}
-	*/
 
 }

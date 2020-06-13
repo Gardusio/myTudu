@@ -88,7 +88,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 	</div>
 	Description:<div><span th:text="*{description}"></span></div> 
 	
-	<div>
+	<div th:if="${currentUser} == ${thisTask.project.owner}">
 	<button class="open-button" onclick="openForm()">Edit</button>
 		<div class="form-popup" id="myForm"> <!-- tryin to pass the entire proj -->
   		<form th:action="@{'/editTask' + '/' + ${thisTask.id}}" method = "POST" class="form-container">

@@ -26,7 +26,7 @@ public class Task {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Project project;
 	
-	@ManyToOne
+	@ManyToOne()
 	private Utente assignedTo; // user u has to be in this.project.members
 
 	/*
@@ -100,7 +100,7 @@ public class Task {
 	public boolean getIsCompleted() { return this.isCompleted; }
 	public LocalDateTime getLastUptadeTime() { return lastUptadeTime; }
 	//public List<Tag> getTaskTags() { return taskTags; }
-	public Project getThisProject() { return project; }
+	public Project getProject() { return project; }
 	public Utente getAssignedTo() { return assignedTo; }
 	public List<Comment> getComments() { return comments; }
 	
@@ -110,7 +110,7 @@ public class Task {
 	public void setLastUptadeTime(LocalDateTime lastUptadeTime) { this.lastUptadeTime = lastUptadeTime; }
 	public void setName(String name) { this.name = name; }
 	//public void setTaskTags(List<Tag> taskTags) { this.taskTags = taskTags; }
-	public void setThisProject(Project thisProject) { this.project = thisProject; }
+	public void setProject(Project thisProject) { this.project = thisProject; }
 	public void setAssignedTo(Utente assignedTo) { this.assignedTo = assignedTo; }
 	public void setTaskComments(List<Comment> taskComments) { this.comments = taskComments; }
 	

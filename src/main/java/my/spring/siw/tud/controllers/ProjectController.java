@@ -147,7 +147,7 @@ public class ProjectController {
 			@RequestParam("description") String newDesc) {
 		Project p = this.projectService.findById(id);
 		
-		if(newName != null) {
+		if(newName != null && !newName.trim().isEmpty()) {
 			p.setName(newName);
 		}
 		
