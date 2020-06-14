@@ -14,15 +14,15 @@
 <!-- Sidebar -->
 <div id = "sidebar" class="w3-sidebar w3-bar-block" style="width:18%" th:fragment="sidebar">	
    <div class="w3-card-4" style="background-color:white"><br>
-	<div class= "menu" style="color:#ea4c88">Menu</div>
+	<div class= "menu">Menu</div>
 	<div class="w3-container">
-		<div class="li"><a th:href="@{/newProject}" class ="w3-bar-item w3-button w3-hover-pink">Create Project</a></div>
+		<div class="li"><a th:href="@{/newProject}" class ="w3-bar-item w3-button w3-hover-dark-gray">Create Project</a></div>
 		<br>
-		<div class="li"><a th:href="@{/showOwnedProjects}" class ="w3-bar-item w3-button w3-hover-pink">Owned Projects</a></div>
+		<div class="li"><a th:href="@{/showOwnedProjects}" class ="w3-bar-item w3-button w3-hover-dark-gray">Owned Projects</a></div>
 		<br>
-		<div class="li"><a th:href="@{/showVisibleProjects}" class ="w3-bar-item w3-button w3-hover-pink">Visible Projects</a></div>
+		<div class="li"><a th:href="@{/showVisibleProjects}" class ="w3-bar-item w3-button w3-hover-dark-gray">Visible Projects</a></div>
 		<br>
-		<div class="li"><a th:href="@{/showTagsMenu}" class ="w3-bar-item w3-button w3-hover-pink">Tags</a></div>
+		<div class="li"><a th:href="@{/showTagsMenu}" class ="w3-bar-item w3-button w3-hover-dark-gray">Tags</a></div>
 		<br><br>
 	</div>
 	</div>
@@ -39,82 +39,10 @@
 	</div>
 	
 	<div id="logoutCard" class="w3-card-4 w3-bottom w3-left" style="width:18%">
-		<a th:href="@{/about}" class="w3-bar-item w3-button w3-hover-pink" style="font-size:20px">About</a>
-		<a th:href="@{/logout}" class="w3-bar-item w3-button w3-hover-pink " style="font-size:20px">Logout</a>
+		<a th:href="@{/about}" class="w3-bar-item w3-button w3-hover-dark-gray" style="font-size:20px">About</a>
+		<a th:href="@{/logout}" class="w3-bar-item w3-button w3-hover-dark-gray" style="font-size:20px">Logout</a>
     </div>
 </div>
-
-
-<div style="margin-left:20%">
-
-</div>
-
-
-
-
-
-<!--content 
-
-<div style="margin-left:20%">
-
-<div class="row">
-
-<div class="column">
-	<div id="boxProj" class="card text-left ">
-		<div  class="card-header">
-			<a class ="titleProject  w3-hover-none" href="#">Serra Automatica</a>
-			
-			<div class="btn w3-right" > <a class="btn btn-danger" href="#"> <i class="fa fa-trash-o fa-lg"></i></a></div>
- 
-			<ul class="nav nav-pills card-header-pills">
-				<li class="btn"> <a class="nav-link" href="#"> <i class="fa fa-tags"></i> Add Tag</a></li>
-				<li class="btn"> <a class="nav-link" href="#"> <i class="fa fa-user-plus "></i> Invita</a> </li>
-			</ul>
-		</div>
-  
-	<div id="boxDesc"class="card-body">
-		<p id = "desc" class="card-text">Progetto per una serra realizzata con IoT </p>
-		<br>
-		<span class="w3-tag w3-small w3-left w3-indigo" style="margin-right:10px">Home</span>
-		<span class="w3-tag w3-small w3-left w3-green" style="margin-right:10px">Tech</span>
-		<span class="w3-tag w3-small w3-left w3-pink" style="margin-right:10px">Fun</span>
-	</div>
-	
-	</div>
-
-</div>
-
-<div class="column">
-	<div id="boxProj" class="card text-left ">
-		<div  class="card-header">
-			<a class ="titleProject  w3-hover-none" href="#">Serra Automatica</a>
-			
-			<div class="btn w3-right" > <a class="btn btn-danger" href="#"> <i class="fa fa-trash-o fa-lg"></i></a></div>
- 
-			<ul class="nav nav-pills card-header-pills">
-				<li class="btn"> <a class="nav-link" href="#"> <i class="fa fa-tags"></i> Add Tag</a></li>
-				<li class="btn"> <a class="nav-link" href="#"> <i class="fa fa-user-plus "></i> Invita</a> </li>
-			</ul>
-		</div>
-  
-	<div id="boxDesc"class="card-body">
-		<p id = "desc" class="card-text">Progetto per una serra realizzata con IoT </p>
-		<br>
-		<span class="w3-tag w3-small w3-left w3-indigo" style="margin-right:10px">Home</span>
-		<span class="w3-tag w3-small w3-left w3-green" style="margin-right:10px">Tech</span>
-		<span class="w3-tag w3-small w3-left w3-pink" style="margin-right:10px">Fun</span>
-	</div>
-	
-	</div>
-
-</div>
-
-
-</div>
- 	
-	
-	
- 	-->
 
 </body>
 </html>

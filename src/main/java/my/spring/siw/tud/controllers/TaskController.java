@@ -48,6 +48,7 @@ public class TaskController {
 		Credentials currentCredentials = sessionData.getLoggedCredentials();
 		Task thisTask = this.taskService.findById(id);
 		this.currentTask = thisTask;
+		
 		model.addAttribute("thisTask", thisTask);
 		model.addAttribute("currentCredentials", currentCredentials);
 		model.addAttribute("currentUser", currentCredentials.getUser());

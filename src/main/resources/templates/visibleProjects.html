@@ -9,19 +9,27 @@
 	<link rel="stylesheet" th:href="@{/css/profileCSS.css}">
 </head>
 
+
+
 <body class="body">
 <div th:insert="fragments/base.html :: sidebar"></div>
-<div style="margin-left:20%">
-<div th:text="${currentUser.name}"></div>
-<div>
 
-<ul> <!-- go to visibleProjectPage instead -->
-	<li th:each="project : ${visibleProjects}">
-	<div>
-	<a th:href="@{'/visibleProjectPage' + '/' + ${project.id}}" th:text="|${project.name}: ${project.description}|"></a>
+
+<div class="wrapper">
+<div class="gridElem" th:each="project : ${visibleProjects}">
+	<div class="card text-left ">
+		<div  class="card-header">
+			<a class ="titleProject  w3-hover-none" 
+			th:href="@{'/visibleProjectPage' + '/' + ${project.id}}"
+			th:text="|${project.name}">Serra Automatica</a>
+		</div>
+  
+	<div id="boxDesc"class="card-body">
+		<p id = "desc" class="card-text" 
+		th:text="${project.description}">Progetto per una serra realizzata con IoT </p>
+		<br>
 	</div>
-	</li>
-</ul>
+	</div>
 </div>
 </div>
 </body>

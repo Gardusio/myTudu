@@ -12,42 +12,57 @@
 
 
 <body class="body">
-<div th:insert="fragments/base.html :: sidebar"></div>
-<div style="margin-left:20%">
-<div th:text="${currentUser.name}"></div>
+	<div th:insert="fragments/base.html :: sidebar"></div>
 
-<div>
-<ul>
-	<li th:each="project : ${projects}">
-	<div>
-		<div>
-		<a th:href="@{'/projectPage' + '/' + ${project.id}}" th:text="|${project.name}:  ${project.description}|"></a>
-		<form th:action="@{'/deleteProject' + '/' + ${project.id}}" method="GET">
-		<input type="submit" value="delete"> 
-		</form>
+<div class="wrapper">
+	<div th:each="project : ${projects}">
+	 <div id="gridElem" class="card text-left" >
+		<div id="cardHeader" class="card-header">
+			<a class ="titleProject  w3-hover-none" 
+			th:href="@{'/projectPage' + '/' + ${project.id}}"
+			th:text="|${project.name}">Serra Automatica</a>
+			
+			<div class="btn w3-right" > 
+			<a class="btn btn-danger w3-black" th:href="@{'/deleteProject' + '/' + ${project.id}}"> 
+			<i class="fa fa-trash-o fa-lg"></i>
+			</a>
+			</div>
+ 
+			<ul class="nav nav-pills card-header-pills">
+				<li class="btn"> <a class="nav-link" href="#"> <i class="fa fa-tags"></i> Add Tag</a></li>
+				
+				<li class="btn"> 
+					<a  class="nav-link " onclick="openForm()"> 
+						<i class="fa fa-user-plus "></i>Invita</a>
+						
+						<div class="form-popup" id="myForm">
+							<form th:action="@{'/addMember' + '/' + ${project.id}}" method = "POST" class="form-container">
+							<h1>Add a member</h1>
+							<label for="email"><b>Insert Member Username</b></label>
+							<input type="text" placeholder="Enter Username" th:name="memberUsername" required>
+
+							<button type="submit" class="btn">Add</button>
+							<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+							</form>
+						</div>	
+						<div th:if="${added}" th:text="${added}"></div>
+				</li>
+
+			</ul>
 		</div>
-		<button class="open-button" onclick="openForm()">Add member</button>
-
-		<div class="form-popup" id="myForm">
-  		<form th:action="@{'/addMember' + '/' + ${project.id}}" method = "POST" class="form-container">
-   			<h1>Add a member to this project</h1>
-    		<label for="email"><b>Insert Member Username</b></label>
-    		<input type="text" placeholder="Enter Username" th:name="memberUsername" required>
-
-    		<button type="submit" class="btn">Add</button>
-    		<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-  		</form>
-  		</div>
+  
+	<div class="card-body">
+		<p id = "desc" class="card-text" 
+		th:text="${project.description}">Progetto per una serra realizzata con IoT </p>
+		<br>
 	</div>
-	
-	<div style="margin-top:60px">
-		<div th:if="${added}" th:text="${added}"></div>
 	</div>
+	</div>
+</div>
 	
-	</li>
-</ul>
-</div>
-</div>
+
+
+
 <script>
 function openForm() {
   document.getElementById("myForm").style.display = "block";

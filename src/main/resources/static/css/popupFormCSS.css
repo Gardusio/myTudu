@@ -1,37 +1,39 @@
-body {font-family: Arial, Helvetica, sans-serif;}
+:root {
+	--rosa: #EA4C88;
+	--acquamarine:#7FFFD4;
+	--bodyGray: #2c3338;
+	--welcomeBlue: #B7ADCF;
+	--lightBlue:#87bcde;
+	}
+
+body {font-family: Raleway, sans-serif;}
+
 * {box-sizing: border-box;}
 
-/* Button used to open the contact form - fixed at the bottom of the page */
 .open-button {
-  background-color: #555;
-  color: white;
   padding: 16px 20px;
   border: none;
   cursor: pointer;
   opacity: 0.8;
   position: fixed;
-
 }
 
-/* The popup form - hidden by default */
 .form-popup {
   display: none;
   position: fixed;
-  border: 3px solid #f1f1f1;
-  z-index: 9;
+  border: 1px solid var(--bodyGray);
+  z-index: 8;
 }
 
-/* Add styles to the form container */
 .form-container {
   max-width: 300px;
-  padding: 10px;
-  background-color: white;
+  padding: 5px;
+  background-color: #f1f1f1;
 }
 
-/* Full-width input fields */
 .form-container input[type=text], .form-container input[type=password] {
   width: 100%;
-  padding: 15px;
+  padding: 10px;
   margin: 5px 0 22px 0;
   border: none;
   background: #f1f1f1;
@@ -47,7 +49,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 .form-container .btn {
   background-color: #4CAF50;
   color: white;
-  padding: 16px 20px;
+  padding: 12px 16px;
   border: none;
   cursor: pointer;
   width: 100%;
@@ -57,7 +59,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 /* Add a red background color to the cancel button */
 .form-container .cancel {
-  background-color: red;
+  background-color: black;
 }
 
 /* Add some hover effects to buttons */
