@@ -1,7 +1,6 @@
 package my.spring.siw.tud.persistence;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 import my.spring.siw.tud.model.*;

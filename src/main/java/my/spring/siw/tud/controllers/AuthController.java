@@ -40,7 +40,7 @@ public class AuthController {
 		return "signUp";
 	}
 	
-	@RequestMapping(value="/save", method = RequestMethod.POST) //maybe u can call this signUp with post?
+	@RequestMapping(value="/save", method = RequestMethod.POST) 
 	public String signUpUser(@Valid @ModelAttribute("userForm") Utente user,BindingResult userBindingResult,
 			@Valid @ModelAttribute("credentialsForm") Credentials credentials,BindingResult credentialsBindingResult
 			,Model model) {
@@ -50,7 +50,6 @@ public class AuthController {
 		
 		if(!(userBindingResult.hasErrors()) && !(credentialsBindingResult.hasErrors())) {
 			credentials.setUser(user);
-			System.out.println(user.getOwnedProjects().toString());
 			this.credentialsService.saveCredentials(credentials);
 			model.addAttribute("registrationCompleted", "congrats!");
 			

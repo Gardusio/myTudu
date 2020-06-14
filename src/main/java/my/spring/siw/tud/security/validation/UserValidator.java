@@ -2,7 +2,6 @@ package my.spring.siw.tud.security.validation;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import my.spring.siw.tud.model.Utente;

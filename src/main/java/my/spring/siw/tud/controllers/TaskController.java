@@ -27,10 +27,10 @@ public class TaskController {
 	private TaskService taskService;
 	
 	@Autowired
-	private UserService userService; //??
+	private UserService userService;
 	
 	@Autowired
-	private ProjectService projectService; //??
+	private ProjectService projectService;
 	
 	@Autowired
 	private CommentsService commentsService;
@@ -62,8 +62,6 @@ public class TaskController {
 		proj.addTask(newTask);
 		
 		this.taskService.saveTask(newTask);
-		model.addAttribute("thisProject", proj);
-		model.addAttribute("tasks",proj.getProjectTasks());
 		return "redirect:/projectPage" +"/" + proj.getId().toString();
 	}
 	
@@ -72,8 +70,6 @@ public class TaskController {
 		Task task=this.taskService.findById(id);
 		Project thisProject = task.getProject();
 		this.taskService.deleteTask(task);
-		model.addAttribute("thisProject",thisProject);
-		model.addAttribute("tasks",thisProject.getProjectTasks()); //could throw LazyExcept
 		return "redirect:/projectPage" +"/" + thisProject.getId().toString();
 	}
 
@@ -97,8 +93,6 @@ public class TaskController {
 			this.taskService.saveTask(task);
 			model.addAttribute("assigned", "Task Assigned to" + memberUsername);
 		}
-		model.addAttribute("thisProject",project);
-		model.addAttribute("tasks",project.getProjectTasks());
 		
 		return "redirect:/projectPage" + "/" + project.getId().toString();
 	}
@@ -113,7 +107,7 @@ public class TaskController {
 		t.setName(newName);
 		t.setDescription(newDescription);
 		this.taskService.saveTask(t);
-		model.addAttribute("thisTask",t);
+		
 		return "redirect:/taskPage" + "/" + t.getId().toString();
 	}
 	
@@ -129,9 +123,6 @@ public class TaskController {
 		t.addComment(newComment);
 		
 		this.commentsService.saveComment(newComment);
-		
-		model.addAttribute("thisProject", p);
-		model.addAttribute("tasks", p.getProjectTasks());
 	
 		if(p.getOwner().equals(this.sessionData.getLoggedCredentials().getUser()))
 			return "redirect:/projectPage/" + p.getId().toString();
@@ -147,10 +138,20 @@ public class TaskController {
 		
 		this.commentsService.deleteComment(toDelete);
 		
-		//model.addAttribute("tasks",tasks);
-		//model.addAttribute("thisProject",thisProject);
-		//model.addAttribute("currentUser", sessionData.getLoggedCredentials().getUser());
-		return "redirect:/projectPage/" + thisProject.getId().toString();
+		if(thisProject.getOwner().equals(this.sessionData.getLoggedCredentials().getUser()))
+			return "redirect:/projectPage/" + thisProject.getId().toString();
+		return "redirect:/visibleProjectPage/" + thisProject.getId().toString();
 	}
-
+	
+	@RequestMapping(value="/setCompleted/{id}", method= RequestMethod.GET)
+	public String setCompleted(Model model, @PathVariable("id") Long id) {
+		Task t = this.taskService.findById(id);
+		if(t.getIsCompleted() == false)
+			t.setCompleted(true);
+		else
+			t.setCompleted(false);
+		
+		this.taskService.saveTask(t);
+		return "redirect:/taskPage/" + id.toString();
+	}
 }

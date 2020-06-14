@@ -5,9 +5,10 @@ import org.springframework.stereotype.Controller;
 
 import my.spring.siw.tud.modelServices.CommentsService;
 
+@SuppressWarnings("unused")
+
 @Controller
 public class CommentsController {
-	
 	
 
 }

@@ -57,8 +57,6 @@ public class ProjectController {
 		this.projectService.saveProject(toPersist);
 		this.userService.saveUser(currentUser);
 		
-		model.addAttribute("projects", owned);
-		model.addAttribute("currentUser",currentUser);
 		return "redirect:/showOwnedProjects";
 }
 	
@@ -66,6 +64,7 @@ public class ProjectController {
 	public String showOwned(Model model) {
 		Utente currentUser = sessionData.getLoggedUser(); 
 		List<Project> owned = this.projectService.findByOwner(currentUser); 
+		
 		model.addAttribute("currentUser",currentUser); 
 		model.addAttribute("projects",owned);
 		return "ownedProjects";
@@ -73,11 +72,7 @@ public class ProjectController {
 	
 	@RequestMapping(value="/deleteProject/{id}", method= RequestMethod.GET)
 	public String deleteProject(@PathVariable("id") Long id,Model model) {
-		Utente currentUser = sessionData.getLoggedUser(); 
 		this.projectService.deleteById(id);
-		model.addAttribute("currentUser",currentUser);
-		List<Project> owned = this.projectService.findByOwner(currentUser);
-		model.addAttribute("projects", owned);
 		return "redirect:/showOwnedProjects";
 	}
 	
@@ -119,32 +114,26 @@ public class ProjectController {
 			@PathVariable("id") Long projectId,
 			@RequestParam("memberUsername") String memberUsername) {
 		
-		Utente currentUser = sessionData.getLoggedUser(); 
-		List<Project> owned = this.projectService.findByOwner(currentUser);
-		
-		Project addedTo = listFindById(projectId, owned);
+		Project addedTo = this.projectService.findById(projectId);
+				//listFindById(projectId, owned);
 		Utente newMember = this.userService.getByUsername(memberUsername);	
 		
-		if(newMember != null) { // && not already a member
+		if(newMember != null && !(addedTo.getMembers().contains(newMember))) {
 			addedTo.addMember(newMember);
 			newMember.addNewVisible(addedTo);
 			this.userService.saveUser(newMember);
 			this.projectService.saveProject(addedTo); 
 			model.addAttribute("added", memberUsername +" added succesfully"); 
 		}
-		else {
-			model.addAttribute("failed", memberUsername +" the User do not exist");  
-		}
 		
-		model.addAttribute("currentUser",currentUser);
-		model.addAttribute("projects",owned);
-		return "ownedProjects";
+		return "redirect:/showOwnedProjects";
 	}
 	
 	@RequestMapping(value="/editProject/{id}", method =RequestMethod.POST)
 	public String editProject(Model model, @PathVariable("id") Long id,
 			@RequestParam("name") String newName,
 			@RequestParam("description") String newDesc) {
+		
 		Project p = this.projectService.findById(id);
 		
 		if(newName != null && !newName.trim().isEmpty()) {
@@ -157,17 +146,6 @@ public class ProjectController {
 		return "redirect:/projectPage/" + id.toString();
 	}
 	
-	//move this util
-	private Project listFindById(Long projectId, List<Project> owned) {
-		Iterator<Project> it = owned.iterator();
-		
-		while(it.hasNext()) {
-			Project p = it.next();
-			if (p.getId().equals(projectId))
-				return p;
-		}
-		return null;
-	}
 	
 	
 

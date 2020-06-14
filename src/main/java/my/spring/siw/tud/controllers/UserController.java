@@ -50,7 +50,6 @@ public class UserController {
 		this.credService.saveCredentials(currentCredentials);
 		
 		model.addAttribute("changed", "Details changed");
-		model.addAttribute("currentCredentials",currentCredentials);
 		return "redirect:/userDetails"; 
 	}
 

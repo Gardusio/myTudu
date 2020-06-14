@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.spring.siw.tud.model.Project;
-import my.spring.siw.tud.model.Task;
 import my.spring.siw.tud.model.Utente;
 import my.spring.siw.tud.persistence.ProjectRepository;
 
