@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import my.spring.siw.tud.controllers.session.Session;
 import my.spring.siw.tud.model.Comment;
+import my.spring.siw.tud.model.Credentials;
 import my.spring.siw.tud.model.Project;
 import my.spring.siw.tud.model.Task;
 import my.spring.siw.tud.model.Utente;
@@ -44,10 +45,12 @@ public class TaskController {
 	
 	@RequestMapping(value="/taskPage/{id}", method=RequestMethod.GET)
 	public String showTaskPage(@PathVariable("id") Long id, Model model) {
+		Credentials currentCredentials = sessionData.getLoggedCredentials();
 		Task thisTask = this.taskService.findById(id);
 		this.currentTask = thisTask;
 		model.addAttribute("thisTask", thisTask);
-		model.addAttribute("currentUser", sessionData.getLoggedCredentials().getUser());
+		model.addAttribute("currentCredentials", currentCredentials);
+		model.addAttribute("currentUser", currentCredentials.getUser());
 		return "task";
 	}
 	

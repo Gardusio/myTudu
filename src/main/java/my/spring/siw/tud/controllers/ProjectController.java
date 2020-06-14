@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.*;
 import my.spring.siw.tud.controllers.session.Session;
+import my.spring.siw.tud.model.Credentials;
 import my.spring.siw.tud.model.Project;
 import my.spring.siw.tud.model.Task;
 import my.spring.siw.tud.model.Utente;
@@ -33,21 +34,21 @@ public class ProjectController {
 	@Autowired
 	private Session sessionData; 
 	
-	//controller can be used better to avoid db txs
-	
-	//need to better handle the owned proj..
 
 	
 	@RequestMapping(value="/newProject", method=RequestMethod.GET)
 	public  String showProjectForm(Model model) {
 		Project newProject = new Project();
 		model.addAttribute("newProject",newProject);
+		model.addAttribute("currentUser",sessionData.getLoggedUser());
+		model.addAttribute("currentCredentials",sessionData.getLoggedCredentials());
 		return "projectForm";
 	}
 	
 	
 	@RequestMapping(value="/saveProject", method= RequestMethod.POST) 
 	public String saveProject(Model model, @ModelAttribute("project") Project toPersist, RedirectAttributes redirectAttributes) {
+		
 		Utente currentUser = sessionData.getLoggedUser(); 
 		toPersist.setOwner(currentUser);
 		List<Project> owned = this.projectService.findByOwner(currentUser); //extract method findAndAdd
@@ -62,10 +63,12 @@ public class ProjectController {
 	
 	@RequestMapping(value="/showOwnedProjects", method=RequestMethod.GET)
 	public String showOwned(Model model) {
-		Utente currentUser = sessionData.getLoggedUser(); 
+		Credentials currentCredentials = sessionData.getLoggedCredentials();
+		Utente currentUser = currentCredentials.getUser();
 		List<Project> owned = this.projectService.findByOwner(currentUser); 
 		
-		model.addAttribute("currentUser",currentUser); 
+		model.addAttribute("currentUser",currentUser);
+		model.addAttribute("currentCredentials",currentCredentials); 
 		model.addAttribute("projects",owned);
 		return "ownedProjects";
 	}
@@ -78,19 +81,23 @@ public class ProjectController {
 	
 	@RequestMapping(value="/showVisibleProjects", method=RequestMethod.GET)
 	public String showVisible(Model model)  {
-		Utente currentUser = sessionData.getLoggedUser(); 
+		Credentials currentCredentials = sessionData.getLoggedCredentials();
+		Utente currentUser = currentCredentials.getUser();
 		List<Project> visibles = this.projectService.findByMembers(currentUser);
 		model.addAttribute("visibleProjects", visibles);
 		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("currentCredentials", currentCredentials);
 		return "visibleProjects";
 	}
 	
 	@RequestMapping(value="/projectPage/{id}", method= RequestMethod.GET)
 	public String showProject(Model model, @PathVariable("id") Long id) {
-		Utente currentUser = sessionData.getLoggedUser(); 
+		Credentials currentCredentials = sessionData.getLoggedCredentials();
+		Utente currentUser = currentCredentials.getUser();
 		Project thisProject = this.projectService.findById(id);
 		List<Task> thisProjectTasks = this.taskService.getByProject(thisProject);
 		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("currentCredentials", currentCredentials);
 		model.addAttribute("thisProject",thisProject);
 		model.addAttribute("tasks", thisProjectTasks);
 		return "project";
@@ -98,10 +105,12 @@ public class ProjectController {
 	
 	@RequestMapping(value="/visibleProjectPage/{id}", method= RequestMethod.GET)
 	public String showVisibleProject(Model model, @PathVariable("id") Long id) {
-		Utente currentUser = sessionData.getLoggedUser(); 
+		Credentials currentCredentials = sessionData.getLoggedCredentials();
+		Utente currentUser = currentCredentials.getUser();
 		Project thisProject = this.projectService.findById(id);
 		List<Task> thisProjectTasks = this.taskService.getByProject(thisProject);
 		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("currentCredentials", currentCredentials);
 		model.addAttribute("thisProject",thisProject);
 		model.addAttribute("tasks", thisProjectTasks);
 		return "visibleProjectPage";

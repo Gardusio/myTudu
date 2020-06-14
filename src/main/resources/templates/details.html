@@ -7,12 +7,13 @@
 	<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css}">
 	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
 	<link rel="stylesheet" th:href="@{/css/popupFormCSS.css}">
+	<link rel="stylesheet" th:href="@{/css/profileCSS.css}">
 </head>
 
 <body class="body" th:object="${currentCredentials}">
-
+<div th:insert="fragments/base.html :: sidebar"></div>
+<div style="margin-left:20%">
 <h3 th:text ="*{username}"></h3>
-
 <div>
 	<button class="open-button" onclick="openForm()">Edit</button>
 		<div class="form-popup" id="myForm"> 
@@ -32,7 +33,7 @@
  </div>
  
  <h4 th:if="${changed}">Details updated!</h4>
-
+</div>
 
 
 <script>

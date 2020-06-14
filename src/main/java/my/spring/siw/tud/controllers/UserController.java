@@ -34,6 +34,7 @@ public class UserController {
 	public String showUserDetails(Model model) {
 		Credentials current = sessionData.getLoggedCredentials();
 		model.addAttribute("currentCredentials",current);
+		model.addAttribute("currentUser",current.getUser());
 		return "details"; 
 	}
 	
@@ -42,7 +43,8 @@ public class UserController {
 	public String editDetails(Model model, @RequestParam("username") String username, @RequestParam("password") String password) {
 		Credentials currentCredentials = sessionData.getLoggedCredentials();
 		
-		//NEED TO VALIDATE CREDENTIALS!
+		//NEED TO VALIDATE CREDENTIALS
+		//Username is unique
 		
 		currentCredentials.setPassword(password);
 		currentCredentials.setUsername(username);

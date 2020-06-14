@@ -1,29 +1,120 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head th:fragment="headerfiles(title)">
-	<meta charset="UTF-8" />
-	<link th:href="@{/css/my-style.css}" rel="stylesheet">
-	<title th:text="${title}"></title>
+<head>
+	<meta charset="UTF-8">
+	<title>Home</title>
+	<link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
+	<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+	<link rel="stylesheet" th:href="@{/css/profileCSS.css}">
 </head>
-<body>
-	
-	
-	<!--  
-	<header th:fragment="intestazione">
-		<h1>Siw - Spring Very Simple Demo</h1>
-	</header>
 
-	<p>Go to the next page to see fragments in action</p>
-	<aside>
-		<div>This is a sidebar</div>
-	</aside>
-	<div class="another">This is another sidebar</div>
+<body class="body" th:object="${currentUser}">
+
+<!-- Sidebar -->
+<div id = "sidebar" class="w3-sidebar w3-bar-block" style="width:18%" th:fragment="sidebar">	
+   <div class="w3-card-4" style="background-color:white"><br>
+	<div class= "menu" style="color:#ea4c88">Menu</div>
+	<div class="w3-container">
+		<div class="li"><a th:href="@{/newProject}" class ="w3-bar-item w3-button w3-hover-pink">Create Project</a></div>
+		<br>
+		<div class="li"><a th:href="@{/showOwnedProjects}" class ="w3-bar-item w3-button w3-hover-pink">Owned Projects</a></div>
+		<br>
+		<div class="li"><a th:href="@{/showVisibleProjects}" class ="w3-bar-item w3-button w3-hover-pink">Visible Projects</a></div>
+		<br>
+		<div class="li"><a th:href="@{/showTagsMenu}" class ="w3-bar-item w3-button w3-hover-pink">Tags</a></div>
+		<br><br>
+	</div>
+	</div>
+	<br>
 	
-	<footer th:fragment="fondo">
-		<a th:href="@{/}">Home</a>
-	</footer>
+	<div class="details">
+    	<a class="username" th:text="${currentCredentials.username}" th:href="@{/userDetails}">Username</a>
+		<br><br>
+        <div>
+			<h4><span th:text="|${currentUser.name} ${currentUser.surname}|">Fabio Barbieri</span></h4>
+			<h4>Account Created: </h4>
+			<div><h4 th:text="${currentUser.creationTime}"></h4></div>
+		</div>
+	</div>
 	
-	-->
+	<div id="logoutCard" class="w3-card-4 w3-bottom w3-left" style="width:18%">
+		<a th:href="@{/about}" class="w3-bar-item w3-button w3-hover-pink" style="font-size:20px">About</a>
+		<a th:href="@{/logout}" class="w3-bar-item w3-button w3-hover-pink " style="font-size:20px">Logout</a>
+    </div>
+</div>
+
+
+<div style="margin-left:20%">
+
+</div>
+
+
+
+
+
+<!--content 
+
+<div style="margin-left:20%">
+
+<div class="row">
+
+<div class="column">
+	<div id="boxProj" class="card text-left ">
+		<div  class="card-header">
+			<a class ="titleProject  w3-hover-none" href="#">Serra Automatica</a>
+			
+			<div class="btn w3-right" > <a class="btn btn-danger" href="#"> <i class="fa fa-trash-o fa-lg"></i></a></div>
+ 
+			<ul class="nav nav-pills card-header-pills">
+				<li class="btn"> <a class="nav-link" href="#"> <i class="fa fa-tags"></i> Add Tag</a></li>
+				<li class="btn"> <a class="nav-link" href="#"> <i class="fa fa-user-plus "></i> Invita</a> </li>
+			</ul>
+		</div>
+  
+	<div id="boxDesc"class="card-body">
+		<p id = "desc" class="card-text">Progetto per una serra realizzata con IoT </p>
+		<br>
+		<span class="w3-tag w3-small w3-left w3-indigo" style="margin-right:10px">Home</span>
+		<span class="w3-tag w3-small w3-left w3-green" style="margin-right:10px">Tech</span>
+		<span class="w3-tag w3-small w3-left w3-pink" style="margin-right:10px">Fun</span>
+	</div>
+	
+	</div>
+
+</div>
+
+<div class="column">
+	<div id="boxProj" class="card text-left ">
+		<div  class="card-header">
+			<a class ="titleProject  w3-hover-none" href="#">Serra Automatica</a>
+			
+			<div class="btn w3-right" > <a class="btn btn-danger" href="#"> <i class="fa fa-trash-o fa-lg"></i></a></div>
+ 
+			<ul class="nav nav-pills card-header-pills">
+				<li class="btn"> <a class="nav-link" href="#"> <i class="fa fa-tags"></i> Add Tag</a></li>
+				<li class="btn"> <a class="nav-link" href="#"> <i class="fa fa-user-plus "></i> Invita</a> </li>
+			</ul>
+		</div>
+  
+	<div id="boxDesc"class="card-body">
+		<p id = "desc" class="card-text">Progetto per una serra realizzata con IoT </p>
+		<br>
+		<span class="w3-tag w3-small w3-left w3-indigo" style="margin-right:10px">Home</span>
+		<span class="w3-tag w3-small w3-left w3-green" style="margin-right:10px">Tech</span>
+		<span class="w3-tag w3-small w3-left w3-pink" style="margin-right:10px">Fun</span>
+	</div>
+	
+	</div>
+
+</div>
+
+
+</div>
+ 	
+	
+	
+ 	-->
+
 </body>
 </html>
