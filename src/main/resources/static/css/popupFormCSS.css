@@ -28,6 +28,7 @@ body {font-family: Raleway, sans-serif;}
 .form-container {
   max-width: 300px;
   padding: 5px;
+  position: fixed;
   background-color: #f1f1f1;
 }
 
@@ -39,13 +40,11 @@ body {font-family: Raleway, sans-serif;}
   background: #f1f1f1;
 }
 
-/* When the inputs get focus, do something */
 .form-container input[type=text]:focus, .form-container input[type=password]:focus {
   background-color: #ddd;
   outline: none;
 }
 
-/* Set a style for the submit/login button */
 .form-container .btn {
   background-color: #4CAF50;
   color: white;

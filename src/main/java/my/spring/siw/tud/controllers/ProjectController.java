@@ -21,21 +21,21 @@ import my.spring.siw.tud.modelServices.UserService;
 
 @Controller
 public class ProjectController {
-	
+
 	@Autowired
 	private ProjectService projectService;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private TaskService taskService;
-	
+
 	@Autowired
 	private Session sessionData; 
-	
 
-	
+
+
 	@RequestMapping(value="/newProject", method=RequestMethod.GET)
 	public  String showProjectForm(Model model) {
 		Project newProject = new Project();
@@ -44,41 +44,41 @@ public class ProjectController {
 		model.addAttribute("currentCredentials",sessionData.getLoggedCredentials());
 		return "projectForm";
 	}
-	
-	
+
+
 	@RequestMapping(value="/saveProject", method= RequestMethod.POST) 
 	public String saveProject(Model model, @ModelAttribute("project") Project toPersist, RedirectAttributes redirectAttributes) {
-		
+
 		Utente currentUser = sessionData.getLoggedUser(); 
 		toPersist.setOwner(currentUser);
 		List<Project> owned = this.projectService.findByOwner(currentUser); //extract method findAndAdd
 		owned.add(toPersist);
 		currentUser.setOwnedProjects(owned);
-		
+
 		this.projectService.saveProject(toPersist);
 		this.userService.saveUser(currentUser);
-		
+
 		return "redirect:/showOwnedProjects";
-}
-	
+	}
+
 	@RequestMapping(value="/showOwnedProjects", method=RequestMethod.GET)
 	public String showOwned(Model model) {
 		Credentials currentCredentials = sessionData.getLoggedCredentials();
 		Utente currentUser = currentCredentials.getUser();
 		List<Project> owned = this.projectService.findByOwner(currentUser); 
-		
+
 		model.addAttribute("currentUser",currentUser);
 		model.addAttribute("currentCredentials",currentCredentials); 
 		model.addAttribute("projects",owned);
 		return "ownedProjects";
 	}
-	
+
 	@RequestMapping(value="/deleteProject/{id}", method= RequestMethod.GET)
 	public String deleteProject(@PathVariable("id") Long id,Model model) {
 		this.projectService.deleteById(id);
 		return "redirect:/showOwnedProjects";
 	}
-	
+
 	@RequestMapping(value="/showVisibleProjects", method=RequestMethod.GET)
 	public String showVisible(Model model)  {
 		Credentials currentCredentials = sessionData.getLoggedCredentials();
@@ -89,7 +89,7 @@ public class ProjectController {
 		model.addAttribute("currentCredentials", currentCredentials);
 		return "visibleProjects";
 	}
-	
+
 	@RequestMapping(value="/projectPage/{id}", method= RequestMethod.GET)
 	public String showProject(Model model, @PathVariable("id") Long id) {
 		Credentials currentCredentials = sessionData.getLoggedCredentials();
@@ -102,7 +102,7 @@ public class ProjectController {
 		model.addAttribute("tasks", thisProjectTasks);
 		return "project";
 	}
-	
+
 	@RequestMapping(value="/visibleProjectPage/{id}", method= RequestMethod.GET)
 	public String showVisibleProject(Model model, @PathVariable("id") Long id) {
 		Credentials currentCredentials = sessionData.getLoggedCredentials();
@@ -115,50 +115,54 @@ public class ProjectController {
 		model.addAttribute("tasks", thisProjectTasks);
 		return "visibleProjectPage";
 	}
-	
-	
-	//why i cant get projects/user from model?
+
+
+
 	@RequestMapping(value="/addMember/{id}", method=RequestMethod.POST)
 	public String addMember(Model model,
 			@PathVariable("id") Long projectId,
 			@RequestParam("memberUsername") String memberUsername, RedirectAttributes redAtts) {
-		
+
 		Project addedTo = this.projectService.findById(projectId);
 		Utente newMember = this.userService.getByUsername(memberUsername);	
-		
-		if(newMember != null && !(addedTo.getMembers().contains(newMember))) {
+		System.out.println(projectId.toString());
+
+		if(newMember == null )
+			redAtts.addFlashAttribute("couldNotAdd",memberUsername +" does not exist"); 
+		else if(addedTo.getMembers().contains(newMember))
+			redAtts.addFlashAttribute("couldNotAdd",memberUsername +" is already a member of this project!");
+		else
+		{
 			addedTo.addMember(newMember);
 			newMember.addNewVisible(addedTo);
 			this.userService.saveUser(newMember);
 			this.projectService.saveProject(addedTo); 
 			redAtts.addFlashAttribute("added", memberUsername +" added succesfully"); 
 		}
-		else
-			redAtts.addFlashAttribute("couldNotAdd",memberUsername +" does not exist"); 
-		
+
 		return "redirect:/showOwnedProjects";
 	}
-	
+
 	@RequestMapping(value="/editProject/{id}", method =RequestMethod.POST)
 	public String editProject(Model model, @PathVariable("id") Long id,
 			@RequestParam("name") String newName,
 			@RequestParam("description") String newDesc) {
-		
+
 		//validation
 		Project p = this.projectService.findById(id);
-		
+
 		if(newName != null && !newName.trim().isEmpty()) {
 			p.setName(newName);
 		}
-		
+
 		p.setDescription(newDesc);
 		this.projectService.saveProject(p);
-		
+
 
 		return "redirect:/projectPage/" + id.toString();
 	}
-	
-	
-	
+
+
+
 
 }

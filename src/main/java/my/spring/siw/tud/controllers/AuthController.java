@@ -81,10 +81,7 @@ public class AuthController {
 		
 		@RequestMapping(value="/profile", method = RequestMethod.GET)
 		public String showProfile(Model model) {
-			Credentials currentCredentials = this.sessionData.getLoggedCredentials(); 
-			model.addAttribute("currentCredentials", currentCredentials);
-			model.addAttribute("currentUser", currentCredentials.getUser());
-			return "profile";
+			return "redirect:/showOwnedProjects";
 		}
 		
 		@RequestMapping(value="/admin",method = RequestMethod.GET)

@@ -1,4 +1,3 @@
-
 :root {
   --baseColor: #606468;
 }
@@ -7,12 +6,18 @@
   --htmlFontSize: 100%;
   --bodyBackgroundColor: #2c3338;
   --newGray: #293241;
+  --rosa: #EA4C88;
+  --acquamarine:#7FFFD4;
+  --bodyGray: #2c3338;
+  --newGray: #293241;
+  --welcomeBlue: #B7ADCF;
+  --lightBlue:#87bcde;
   --bodyColor: var(--baseColor);
   --bodyFontFamily: 'Raleway';
   --bodyFontFamilyFallback: sans-serif;
   --bodyFontSize: 0.875rem;
   --bodyFontWeight: 400;
-  --bodyLineHeight: 1.5;
+  --bodyLineHeight: 1.9;
 }
 
 html {
@@ -22,6 +27,7 @@ html {
 }
 
 body {
+	
   background-color: var(--bodyBackgroundColor);
   color: var(--bodyColor);
   font-family: var(--bodyFontFamily), var(--bodyFontFamilyFallback);
@@ -30,27 +36,26 @@ body {
   height: 100%;
   line-height: var(--bodyLineHeight);
   margin: 0;
-  min-height: 100vh;
 }
 
 hr {
   border-color: #B7ADCF;
+  max-width:50%;
 }
 
 header {
-  color: #ea4c88;
-  font-size: 45px;
   text-align: center;
+  margin-top:4%;
 }
 
 h1 {
-  font-size:50px;
+  font-size:65px;
   color: #ea4c88;
   margin:50px;
 }
 
 h4 {
-	color: #87bcde;
+	color: var(--welcomeBlue);
 	font-size: 30px;
 	text-align: center;
 }

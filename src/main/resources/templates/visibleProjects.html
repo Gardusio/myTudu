@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>Home</title>
+	<title>Visible Projects</title>
 	<link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
 	<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css}">
 	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
@@ -12,25 +12,28 @@
 
 
 <body class="body">
-<div th:insert="fragments/base.html :: sidebar"></div>
+	<div th:insert="fragments/base.html :: sidebar"></div>
+	
+	<header style="margin-left:18%">
+	<h1 class="pageTitle" >Visible Projects</h1>
+	</header>
 
-
-<div class="wrapper">
-<div  th:each="project : ${visibleProjects}">
-	<div id="gridElem" class="card text-left ">
-		<div  id="cardHeader" class="card-header">
-			<a class ="titleProject  w3-hover-none" 
-			th:href="@{'/visibleProjectPage' + '/' + ${project.id}}"
-			th:text="${project.name}"></a>
-		</div>
+		<div class="wrapper">
+		<div  th:each="project : ${visibleProjects}">
+			<div id="gridElem" class="card text-left ">
+				<div  id="cardHeader" class="card-header">
+					<a class ="titleProject  w3-hover-none" 
+					th:href="@{'/visibleProjectPage' + '/' + ${project.id}}"
+					th:text="${project.name}"></a>
+				</div>
   
-	<div id="cardBody"class="card-body">
-		<p id = "desc" class="card-text" 
-		th:text="${project.description}"></p>
-		<br>
-	</div>
-
-	</div>
-</div>
-</div>
+				<div id="cardBody"class="card-body">
+					<p id = "desc" class="card-text" 
+					th:text="${project.description}"></p>
+				<br>
+				</div>
+			</div>
+		</div>
+		</div>
 </body>
+</html>

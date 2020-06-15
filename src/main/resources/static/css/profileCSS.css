@@ -12,13 +12,23 @@
   font-family: 'Raleway';
 }
 
+.pageTitle {
+	font-weight: 700;
+	font-size:50px;
+	text-align:center;
+	padding:2% 0 0 0;
+	font-family: 'Raleway';
+	color:  var(--acquamarine);#F19953;
+}
+
+
 a:hover, a:active {
-  color: var(--bodyGray);
+  color: white;
 }
 
 a:link {
   text-decoration: none;
-  color: white;
+  color: var(--bodyGray);
 }
 
 a:visited {
@@ -32,12 +42,13 @@ a:visited {
   font-family: 'Raleway';
   max-height:auto;
   max-weight:auto;
+  border: 2px solid white;
 }
 
 #desc {
   font-size:20px; 
   font-family: 'Raleway';
-  color: #2c3338;
+  color: var(--bodyGray);
   font-weight: 200;
   max-width:auto;
   max-height:auto;
@@ -50,7 +61,7 @@ a:visited {
   font-size:50px;
   font-weight:700;
   text-align: center;
-  color:#ea4c88;
+  color: #ea4c88;
 
 }
 
@@ -64,7 +75,10 @@ a:visited {
 }
 
 #logoutCard {
-background-color: white;
+  background-color: white;
+  max-height:auto;
+  width:auto;
+  height:auto;
 }
 
 h4 {
@@ -78,7 +92,7 @@ font-family:'Raleway';
   font-size:30px;
   font-weight:700;
   font-family: 'Raleway';
-  color: white;
+  color: var(--bodyGray);
 }
 
 .li {
@@ -87,19 +101,23 @@ font-size:20px;
 }
 
 .details {
-margin-top:32px;
-text-align: center;
+  margin-top:32px;
+  text-align: center;
+  max-width:auto;
+  max-height:auto;
 }
 
 #cardBody {
 	height:150px;
 	width:400px;
+	max-width:auto;
+    max-height:auto;
+  
 }
 
 #gridElem{
-    background-color: white;
 	margin-top:20%;
-	border-color: var(--bodyGray);
+	
 }
 
 
@@ -109,9 +127,10 @@ text-align: center;
   grid-gap: 10%;
   margin-left:23%;
   margin-right:23%;
+
 }
 
 #cardHeader {
-	background-color: var(--rosa);
-
+	background-color: var(--welcomeBlue);
+	border: 2px solid var(--acquamarine);
 }
