@@ -16,19 +16,20 @@
 
 
 <div class="wrapper">
-<div class="gridElem" th:each="project : ${visibleProjects}">
-	<div class="card text-left ">
-		<div  class="card-header">
+<div  th:each="project : ${visibleProjects}">
+	<div id="gridElem" class="card text-left ">
+		<div  id="cardHeader" class="card-header">
 			<a class ="titleProject  w3-hover-none" 
 			th:href="@{'/visibleProjectPage' + '/' + ${project.id}}"
-			th:text="|${project.name}">Serra Automatica</a>
+			th:text="${project.name}"></a>
 		</div>
   
-	<div id="boxDesc"class="card-body">
+	<div id="cardBody"class="card-body">
 		<p id = "desc" class="card-text" 
-		th:text="${project.description}">Progetto per una serra realizzata con IoT </p>
+		th:text="${project.description}"></p>
 		<br>
 	</div>
+
 	</div>
 </div>
 </div>

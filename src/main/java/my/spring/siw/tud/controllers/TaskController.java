@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import my.spring.siw.tud.controllers.session.Session;
 import my.spring.siw.tud.model.Comment;
@@ -81,7 +82,7 @@ public class TaskController {
 	@RequestMapping(value="/assignTask/{id}", method=RequestMethod.POST)
 	public String assignTask(Model model,
 			@PathVariable("id") Long id,
-			@RequestParam("username") String memberUsername) {
+			@RequestParam("username") String memberUsername, RedirectAttributes redAtts) {
 		
 		Task task=this.taskService.findById(id);
 		Project project = task.getProject();
@@ -89,13 +90,12 @@ public class TaskController {
 		List<Utente> members = this.userService.getByVisibleProjects(project);
 		
 		if(assignTo == null || !(members.contains(assignTo))) { 
-			String couldNotAssign ="this User is not a member of the Project";
-			model.addAttribute("couldNotAssign", couldNotAssign);
+			redAtts.addFlashAttribute("couldNotAssign", memberUsername +" is not a member of the project!");
 		}
 		else {
 			task.setAssignedTo(assignTo); 
 			this.taskService.saveTask(task);
-			model.addAttribute("assigned", "Task Assigned to" + memberUsername);
+			redAtts.addFlashAttribute("assigned", "Task Assigned to " + memberUsername);
 		}
 		
 		return "redirect:/projectPage" + "/" + project.getId().toString();

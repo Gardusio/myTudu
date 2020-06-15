@@ -121,10 +121,9 @@ public class ProjectController {
 	@RequestMapping(value="/addMember/{id}", method=RequestMethod.POST)
 	public String addMember(Model model,
 			@PathVariable("id") Long projectId,
-			@RequestParam("memberUsername") String memberUsername) {
+			@RequestParam("memberUsername") String memberUsername, RedirectAttributes redAtts) {
 		
 		Project addedTo = this.projectService.findById(projectId);
-				//listFindById(projectId, owned);
 		Utente newMember = this.userService.getByUsername(memberUsername);	
 		
 		if(newMember != null && !(addedTo.getMembers().contains(newMember))) {
@@ -132,8 +131,10 @@ public class ProjectController {
 			newMember.addNewVisible(addedTo);
 			this.userService.saveUser(newMember);
 			this.projectService.saveProject(addedTo); 
-			model.addAttribute("added", memberUsername +" added succesfully"); 
+			redAtts.addFlashAttribute("added", memberUsername +" added succesfully"); 
 		}
+		else
+			redAtts.addFlashAttribute("couldNotAdd",memberUsername +" does not exist"); 
 		
 		return "redirect:/showOwnedProjects";
 	}
@@ -143,6 +144,7 @@ public class ProjectController {
 			@RequestParam("name") String newName,
 			@RequestParam("description") String newDesc) {
 		
+		//validation
 		Project p = this.projectService.findById(id);
 		
 		if(newName != null && !newName.trim().isEmpty()) {
@@ -151,6 +153,7 @@ public class ProjectController {
 		
 		p.setDescription(newDesc);
 		this.projectService.saveProject(p);
+		
 
 		return "redirect:/projectPage/" + id.toString();
 	}

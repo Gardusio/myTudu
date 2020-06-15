@@ -18,7 +18,7 @@ a:hover, a:active {
 
 a:link {
   text-decoration: none;
-  color: black;
+  color: white;
 }
 
 a:visited {
@@ -30,6 +30,8 @@ a:visited {
   color: black;
   font-weight: 600;
   font-family: 'Raleway';
+  max-height:auto;
+  max-weight:auto;
 }
 
 #desc {
@@ -37,16 +39,12 @@ a:visited {
   font-family: 'Raleway';
   color: #2c3338;
   font-weight: 200;
+  max-width:auto;
+  max-height:auto;
+  width:auto;
+  height:auto;
 }
 
-
-#tudu {
-  color: var(--acquamarine);
-  text-align: center;
-  font-size: 50px;
-  font-family: 'Raleway';
-  font-weight:700;
-}
 
 .menu {
   font-size:50px;
@@ -62,13 +60,11 @@ a:visited {
   text-align: center;
   font-family: 'Raleway';
   margin-bottom:10px;
-  color:white;var(--bodyGray);
+  color:white;
 }
 
 #logoutCard {
 background-color: white;
-text-align:center;
-align-items: flex-end;
 }
 
 h4 {
@@ -86,30 +82,36 @@ font-family:'Raleway';
 }
 
 .li {
-margin-top:40px;
+margin-top:30px;
 font-size:20px;
 }
 
 .details {
-margin-top:10px;
+margin-top:32px;
 text-align: center;
+}
+
+#cardBody {
+	height:150px;
+	width:400px;
 }
 
 #gridElem{
     background-color: white;
-	margin-top:10%;
+	margin-top:20%;
 	border-color: var(--bodyGray);
-	border-radius:18%;
-
 }
+
+
 .wrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10%;
-  margin-right:3%;
-  margin-left:21%;
+  margin-left:23%;
+  margin-right:23%;
 }
 
 #cardHeader {
 	background-color: var(--rosa);
+
 }

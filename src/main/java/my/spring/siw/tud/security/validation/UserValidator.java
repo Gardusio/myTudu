@@ -11,10 +11,8 @@ public class UserValidator implements Validator{
 
 	private static final Integer NAMES_MAX_LENGHT = 32;
 	private static final Integer NAMES_MIN_LENGHT = 2;
-	//private static final Integer PASS_MIN_LENGHT = 4;
-	//private static final Integer PASS_MAX_LENGHT = 32;
 
-
+	
 	@Override
 	public void validate(Object o, Errors errors) {
 		Utente user = (Utente) o;

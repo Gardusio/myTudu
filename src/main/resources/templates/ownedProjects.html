@@ -15,8 +15,9 @@
 	<div th:insert="fragments/base.html :: sidebar"></div>
 
 <div class="wrapper">
+
 	<div th:each="project : ${projects}">
-	 <div id="gridElem" class="card text-left" >
+	 <div id="gridElem" class="card text-left">
 		<div id="cardHeader" class="card-header">
 			<a class ="titleProject  w3-hover-none" 
 			th:href="@{'/projectPage' + '/' + ${project.id}}"
@@ -45,21 +46,25 @@
 							<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
 							</form>
 						</div>	
-						<div th:if="${added}" th:text="${added}"></div>
+						
 				</li>
-
 			</ul>
 		</div>
   
-	<div class="card-body">
+	<div id="cardBody" class="card-body">
 		<p id = "desc" class="card-text" 
-		th:text="${project.description}">Progetto per una serra realizzata con IoT </p>
+		th:text="${project.description}">
+		</p>
 		<br>
 	</div>
+
 	</div>
+		
+		<div th:if="${added}" th:text="${added}" style="color:white"></div>
+	<div th:if="${couldNotAdd}" th:text="${couldNotAdd}" style="color:white"></div>
 	</div>
 </div>
-	
+
 
 
 

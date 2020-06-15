@@ -30,7 +30,7 @@
     		<label for="taskName"><b>Name</b></label>
     		<input type="text" placeholder="New name" th:name="name">
     		<label for="taskName"><b>Description</b></label>
-    		<input type="text" placeholder="New description" th:name="description" required>
+    		<input type="text" placeholder="New description" th:name="description"  th:value="${thisProject.description}"required>
 
     		<button type="submit" class="btn">Submit</button>
     		<button type="button" class="btn cancel" onclick="closeForm('edit')">Close</button>
@@ -81,7 +81,7 @@
   		</form>	
   		</div>
   	
-  	<div style="margin-top:60px"> <!-- not showed -->
+  	<div style="margin-top:60px"> 
   	<h6 th:if="${couldNotAssign}" th:text="${couldNotAssign}"></h6> 
 	<h6 th:if="${assigned}" th:text="${assigned}"></h6>  	
   	</div>	
