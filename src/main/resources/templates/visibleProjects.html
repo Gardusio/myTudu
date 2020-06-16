@@ -9,7 +9,11 @@
 	<link rel="stylesheet" th:href="@{/css/profileCSS.css}">
 </head>
 
-
+<style>
+#dropDownMembers {
+	width:170px;
+}
+</style>
 
 <body class="body">
 	<div th:insert="fragments/base.html :: sidebar"></div>
@@ -25,12 +29,34 @@
 					<a class ="titleProject  w3-hover-none" 
 					th:href="@{'/visibleProjectPage' + '/' + ${project.id}}"
 					th:text="${project.name}"></a>
+					
+					<div class="btn w3-right" > 
+					<a class="btn btn-danger w3-black w3-hover-shadow" th:href="@{'/leaveProject' + '/' + ${project.id}}"> Leave</a>
+					</div>
+					
+					<div class="nav nav-pills card-header-pills">
+					<div> You have 3 task assigned</div>
+					</div>
 				</div>
   
 				<div id="cardBody"class="card-body">
 					<p id = "desc" class="card-text" 
 					th:text="${project.description}"></p>
-				<br>
+					<br>
+					
+						<div class="w3-dropdown-hover w3-right"> 
+					<a class="nav-link w3-sand w3-small w3-hover-shadow "> <i class="fa fa-users"></i> Members</a>
+						<div id="dropDownMembers" class="w3-dropdown-content w3-bar-block" >
+						<div th:each="member : ${project.members}">
+							<div class="w3-bar w3-white">
+							<div class="w3-bar-item">
+							<span th:text="|${member.name} ${member.surname}|"></span>
+							</div>
+							</div>
+						</div>
+   						 </div>
+					</div>
+					
 				</div>
 			</div>
 		</div>
