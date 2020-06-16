@@ -1,13 +1,17 @@
 package my.spring.siw.tud.modelServices;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.spring.siw.tud.model.Project;
+import my.spring.siw.tud.model.Task;
 import my.spring.siw.tud.model.Utente;
 import my.spring.siw.tud.persistence.ProjectRepository;
 
@@ -67,7 +71,21 @@ public class ProjectService {
 		Optional<Project> retrieved = this.projectRepo.findById(id);
 		return retrieved.orElse(null);
 	}
-
+	
+	
+	public Map<Project,Integer> getProjectToTaskAssigned(List<Project> projects, Utente member) {
+		Map<Project,Integer> projectToTaskAssigned = new HashMap<Project,Integer>();
+		
+		for(Project project : projects) {
+			List<Task> assignedInProject = project.getProjectTasks().stream()
+									.filter(t -> t.getAssignedTo()!=null 
+												 && t.getAssignedTo().equals(member))
+									.collect(Collectors.toList());
+			projectToTaskAssigned.put(project,assignedInProject.size());
+		}
+		
+		return projectToTaskAssigned;
+	}
 	
 	/*Estensione
 	 * 
@@ -79,6 +97,4 @@ public class ProjectService {
 	}
 	*/
 	
-	//aggiornare i dati di un mio progetto
-	//ChangeName, ChangeDescription, ChangePriority
 }
