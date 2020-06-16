@@ -6,7 +6,7 @@
 	--lightBlue:#87bcde;
 	}
 
-body {font-family: Raleway, sans-serif;}
+body {font-family: Raleway,Raleway;}
 
 * {box-sizing: border-box;}
 
@@ -20,16 +20,17 @@ body {font-family: Raleway, sans-serif;}
 
 .form-popup {
   display: none;
-  position: fixed;
-  border: 1px solid var(--bodyGray);
+  position: relative;
   z-index: 8;
 }
 
 .form-container {
-  max-width: 300px;
+  max-width: 500px;
   padding: 5px;
-  position: fixed;
-  background-color: #f1f1f1;
+  position: relative;
+  background-color: white;
+  border-radius:0 0 5% 5%;
+  margin-top:1%;
 }
 
 .form-container input[type=text], .form-container input[type=password] {
@@ -37,14 +38,14 @@ body {font-family: Raleway, sans-serif;}
   padding: 10px;
   margin: 5px 0 22px 0;
   border: none;
-  background: #f1f1f1;
+  background: #FFF9FB;
 }
 
 .form-container input[type=text]:focus, .form-container input[type=password]:focus {
-  background-color: #ddd;
+  background-color: #FFF9FB;
   outline: none;
 }
-
+/*
 .form-container .btn {
   background-color: #4CAF50;
   color: white;
@@ -56,10 +57,11 @@ body {font-family: Raleway, sans-serif;}
   opacity: 0.8;
 }
 
-/* Add a red background color to the cancel button */
+/* Add a red background color to the cancel button 
 .form-container .cancel {
   background-color: black;
 }
+*/
 
 /* Add some hover effects to buttons */
 .form-container .btn:hover, .open-button:hover {

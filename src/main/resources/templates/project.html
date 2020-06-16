@@ -92,7 +92,7 @@
   			<div th:text="${comment.text}"></div>
   			<div th:text="${comment.creationTime}"></div>
   			
-  			<form th:if="${comment.userCred.user} == ${currentUser}" th:action="@{'/deleteComment' + '/' + ${comment.id}}" method="GET">
+  			<form th:if="${comment.userCred.user} == ${currentCredentials.user}" th:action="@{'/deleteComment' + '/' + ${comment.id}}" method="GET">
 			<input type="submit" value="delete">
 			</form>
   			

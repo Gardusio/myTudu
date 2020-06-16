@@ -55,7 +55,7 @@ h1 {
 }
 
 h4 {
-	color: var(--welcomeBlue);
+	color: var(--lightBlue);
 	font-size: 30px;
 	text-align: center;
 }
