@@ -85,7 +85,7 @@ public class TaskController {
 			@RequestParam("username") String memberUsername, RedirectAttributes redAtts) {
 		
 		Task task=this.taskService.findById(id);
-		Project project = task.getProject();
+		Project project = task.getProject(); //now is EAGER but...
 		Utente assignTo = this.userService.getByUsername(memberUsername); 
 		List<Utente> members = this.userService.getByVisibleProjects(project);
 		

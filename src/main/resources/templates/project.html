@@ -23,7 +23,7 @@
 	
 	<div style="margin-bottom:20px">
 	<div>
-	<button class="open-button" onclick="openForm('edit')">Edit</button>
+	<button class="open-button" onclick="openSingleForm('edit')">Edit</button>
 		<div class="form-popup" id="edit" >
   		<form th:action="@{'/editProject' + '/' + ${thisProject.id}}" method = "POST" class="form-container">
    			<h1>Edit Project infos</h1>
@@ -33,7 +33,7 @@
     		<input type="text" placeholder="New description" th:name="description"  th:value="${thisProject.description}"required>
 
     		<button type="submit" class="btn">Submit</button>
-    		<button type="button" class="btn cancel" onclick="closeForm('edit')">Close</button>
+    		<button type="button" class="btn cancel" onclick="closeSingleForm('edit')">Close</button>
   		</form>
   		</div> 	
   		</div>
@@ -45,7 +45,7 @@
 
 
 <div style="margin-top:20px">
-	<button class="open-button" onclick="openForm('newTask')">Add new Task</button>
+	<button class="open-button" onclick="openSingleForm('newTask')">Add new Task</button>
 		<div class="form-popup" id="newTask">
   		<form th:action="@{'/newTask' + '/' + ${thisProject.id}}" method = "POST" class="form-container">
    			<h1>Enter Task details</h1>
@@ -55,7 +55,7 @@
     		<input type="text" placeholder="Enter Task Name" th:name="taskDescription" required>
 
     		<button type="submit" class="btn">Add</button>
-    		<button type="button" class="btn cancel" onclick="closeForm('newTask')">Close</button>
+    		<button type="button" class="btn cancel" onclick="closeSingleForm('newTask')">Close</button>
   		</form>
   		</div> 	
 </div>
@@ -69,15 +69,15 @@
 		<input type="submit" value="delete">
 		</form>
 
-		<button class="open-button" onclick="openForm('assign')">Assign task</button>
-		<div class="form-popup" id="assign">
+		<button class="open-button" th:onclick="openMultipleAssignForm('[(${taskStat.index})]')">Assign task</button>
+		<div class="form-popup assign" id="assign">
   		<form th:action="@{'/assignTask' + '/' + ${task.id}}" method = "POST" class="form-container">
    			<h1>Assign this task to a member</h1>
     		<label for="username"><b>Insert Member Username</b></label>
     		<input type="text" placeholder="Enter Username" th:name="username" required>
 
     		<button type="submit" class="btn">Assign</button>
-    		<button type="button" class="btn cancel" onclick="closeForm('assign')">Close</button>
+    		<button type="button" class="btn cancel" th:onclick="closeMultipleAssignForm('[(${taskStat.index})]')">Close</button>
   		</form>	
   		</div>
   	
@@ -100,19 +100,18 @@
   		</ul>
   		
   		<div>
-  		<button class="open-button" onclick="openForm('comment')">Add Comment</button>
+  		<button class="open-button" th:onclick="openMultipleCommentForm('[(${taskStat.index})]')">Add Comment</button>
 		
-		<div class="form-popup" id="comment">
+		<div class="form-popup comment" id="comment">
   		<form th:action="@{'/addComment' + '/' + ${task.id}}" method = "POST" class="form-container">
     		<label for="commentText"><b>Post a Comment</b></label>
     		<input type="text" placeholder="Write a Comment" th:name="comment" required>
 
     		<button type="submit" class="btn">Post</button>
-    		<button type="button" class="btn cancel" onclick="closeForm('comment')">Close</button>
+    		<button type="button" class="btn cancel" th:onclick="closeMultipleCommentForm('[(${taskStat.index})]')">Close</button>
   		</form>	
   		</div>
   		</div>
-  		
 	</li>
 </ul>
 </div>
@@ -121,12 +120,33 @@
 
 
 
-<script>
-function openForm(form) {
+<script th:inline="javascript">
+
+function openMultipleAssignForm(task) {
+	 var forms = document.getElementsByClassName("form-popup assign");
+	 forms[Number(task)].style.display = "block";
+	}
+
+function closeMultipleAssignForm(task) {
+	 var forms = document.getElementsByClassName("form-popup assign");
+	 forms[Number(task)].style.display = "none";
+	}
+	
+function openMultipleCommentForm(task) {
+	 var forms = document.getElementsByClassName("form-popup comment");
+	 forms[Number(task)].style.display = "block";
+	}
+
+function closeMultipleCommentForm(task) {
+	 var forms = document.getElementsByClassName("form-popup comment");
+	 forms[Number(task)].style.display = "none";
+	}
+
+function openSingleForm(form) {
   document.getElementById(form).style.display = "block";
 }
 
-function closeForm(form) {
+function closeSingleForm(form) {
   document.getElementById(form).style.display = "none";
 }
 

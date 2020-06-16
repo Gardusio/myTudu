@@ -41,7 +41,7 @@ public class ProjectController {
 		Utente currentUser = sessionData.getLoggedUser(); 
 		
 		toPersist.setOwner(currentUser);
-		List<Project> owned = this.projectService.findByOwner(currentUser); //extract method findAndAdd
+		List<Project> owned = this.projectService.findByOwner(currentUser);
 		owned.add(toPersist);
 		currentUser.setOwnedProjects(owned);
 		
@@ -81,6 +81,9 @@ public class ProjectController {
 		model.addAttribute("visibleProjects", visibles);
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("currentCredentials", currentCredentials);
+		
+		model.addAttribute("projectToTaskAssigned", this.projectService.getProjectToTaskAssigned(visibles, currentUser));
+		
 		return "visibleProjects";
 	}
 
@@ -187,7 +190,7 @@ public class ProjectController {
 		Utente toKick = this.userService.getById(mId);
 
 		List<Utente> members = toKickFrom.getMembers();
-		List<Project> visible = toKick.getVisibleProjects(); //this.projectService.findByMembers(toKick);
+		List<Project> visible = toKick.getVisibleProjects(); 
 
 		deleteFromList(members,toKick);
 		deleteFromList(visible,toKickFrom);
