@@ -26,7 +26,7 @@ public class Task {
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Project project;
 	
-	@ManyToOne()
+	@ManyToOne(fetch=FetchType.EAGER)
 	private Utente assignedTo; // user u has to be in this.project.members
 
 	/*

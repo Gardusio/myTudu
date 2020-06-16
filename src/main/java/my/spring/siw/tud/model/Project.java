@@ -3,6 +3,9 @@ package my.spring.siw.tud.model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.persistence.*;
 
@@ -27,6 +30,7 @@ public class Project {
 
 	@ManyToMany()
 	private List<Utente> members;
+	
 
 	@OneToMany(mappedBy = "project",
 			cascade = CascadeType.REMOVE,
@@ -80,6 +84,9 @@ public class Project {
 	public void addTask(Task newTask) {
 		this.projectTasks.add(newTask);
 	}
+	
+
+	
 
 	/*
 	public void addTag(Tag tag) {
