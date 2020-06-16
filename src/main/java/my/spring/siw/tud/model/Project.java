@@ -11,7 +11,7 @@ public class Project {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	//@Column(nullable = false, length = 10)
+	//@Column(nullable = false, length = 252)
 	private String name;
 	//@Column(length = 252)
 	private String description;
@@ -30,7 +30,7 @@ public class Project {
 
 	@OneToMany(mappedBy = "project",
 			cascade = CascadeType.REMOVE,
-			fetch = FetchType.LAZY) //ALERT, but still...retrieve projects without it own tasks is not the best choise in our interface
+			fetch = FetchType.LAZY)
 	private List<Task> projectTasks;
 
 	/* estensione

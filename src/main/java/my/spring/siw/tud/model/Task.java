@@ -85,7 +85,6 @@ public class Task {
 	}
 	
 	*/
-	
 	public void addComment(Comment c) {
 		this.comments.add(c);	
 	}
@@ -117,6 +116,7 @@ public class Task {
 	/*
 	 * HashCode,Equals n ToString methods
 	 */
+	
 	/*
 	@Override
 	public void toString() {
