@@ -13,9 +13,11 @@ import java.util.*;
 import my.spring.siw.tud.controllers.session.Session;
 import my.spring.siw.tud.model.Credentials;
 import my.spring.siw.tud.model.Project;
+import my.spring.siw.tud.model.Tag;
 import my.spring.siw.tud.model.Task;
 import my.spring.siw.tud.model.Utente;
 import my.spring.siw.tud.modelServices.ProjectService;
+import my.spring.siw.tud.modelServices.TagService;
 import my.spring.siw.tud.modelServices.TaskService;
 import my.spring.siw.tud.modelServices.UserService;
 
@@ -32,8 +34,10 @@ public class ProjectController {
 	private TaskService taskService;
 
 	@Autowired
-	private Session sessionData; 
+	private Session sessionData;
 
+	@Autowired
+	private TagService tagService; 
 
 
 	@RequestMapping(value="/saveProject", method= RequestMethod.POST) 
@@ -99,6 +103,7 @@ public class ProjectController {
 		model.addAttribute("currentCredentials", currentCredentials);
 		model.addAttribute("thisProject",thisProject);
 		model.addAttribute("tasks", thisProjectTasks);
+		model.addAttribute("newTask",new Task());
 		
 		return "project";
 	}
@@ -142,7 +147,7 @@ public class ProjectController {
 			redAtts.addFlashAttribute("added", memberUsername +" added succesfully"); 
 		}
 
-		return "redirect:/showOwnedProjects";
+		return "redirect:/projectPage/" + addedTo.getId().toString();
 	}
 	
 
@@ -194,12 +199,23 @@ public class ProjectController {
 
 		deleteFromList(members,toKick);
 		deleteFromList(visible,toKickFrom);
+		
+		List<Task> taskAssigned = this.projectService.getTaskAssigned(toKickFrom,toKick);
+		for(Task t : taskAssigned) { t.setAssignedTo(null);}
 
 		this.userService.saveUser(toKick);
 		this.projectService.saveProject(toKickFrom);
 
 		return "redirect:/showOwnedProjects";
-
+	}
+	
+	@RequestMapping(value="/addTag/{id}", method=RequestMethod.POST) 
+	public String addTagToProject(Model model, @PathVariable("id") Long id, @RequestParam("tagName") String tagName){
+		Tag t = this.tagService.findByName(tagName);
+		Project p = this.projectService.findById(id);
+		p.getProjectTags().add(t);
+		this.projectService.saveProject(p);
+		return "redirect:/showOwnedProjects";
 	}
 
 

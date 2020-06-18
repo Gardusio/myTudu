@@ -115,7 +115,6 @@ font-size:20px;
     max-height:auto;
     background-color:#FFF9FB;
     border-radius: 0 0 10% 10%;
-    
 }
 
 #gridElem{
@@ -135,4 +134,8 @@ font-size:20px;
 
 #cardHeader {
 	background-color:var(--rosa);
+}
+
+#cardHeaderTask {
+	background-color:var(--lightBlue);
 }

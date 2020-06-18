@@ -1,5 +1,6 @@
 package my.spring.siw.tud.modelServices;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +86,18 @@ public class ProjectService {
 		}
 		
 		return projectToTaskAssigned;
+	}
+
+
+
+	public List<Task> getTaskAssigned(Project p , Utente member ) {
+		List<Task> assigned = new ArrayList<Task>();
+		
+		assigned = p.getProjectTasks().stream()
+				   .filter(t-> t.getAssignedTo()!=null && t.getAssignedTo().equals(member))
+				   .collect(Collectors.toList());
+		
+		return assigned;
 	}
 	
 	/*Estensione

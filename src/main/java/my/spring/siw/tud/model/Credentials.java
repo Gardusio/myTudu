@@ -26,6 +26,8 @@ public class Credentials {
 	@Column(nullable = false)
 	private String role;
 	
+	
+	
 	@OneToOne(fetch = FetchType.EAGER,
 			cascade = CascadeType.ALL)
 	private Utente user;
@@ -41,5 +43,6 @@ public class Credentials {
 	public void setPassword(String password) { this.password = password; }
 	public void setUser(Utente user) { this.user = user; }
 	public String getPassword() { return this.password; }
+
 
 }

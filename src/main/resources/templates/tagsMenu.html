@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Tags</title>
+	<link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
+	<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
+	<link rel="stylesheet" th:href="@{/css/popupFormCSS.css}">
+	<link rel="stylesheet" th:href="@{/css/modalForm.css}">
+	<link rel="stylesheet" th:href="@{/css/profileCSS.css}">
+</head>
+
+
+<body class="body">
+	<div th:insert="fragments/base.html :: sidebar"></div>
+	<div style="margin-left:20%">
+	<h2 class="pageTitle">Tags Menu</h2>
+	
+	<div class="w3-center" style="margin-top:2%">
+	<a id="newTag" class="btn w3-round w3-green">Create Tag</a>
+	</div>
+	
+	<div id="modalTags" class="modal">
+  			<div class="modal-content">
+    			<div class="modal-header">
+     				<h2 style="margin-left:34%">New Tag</h2>
+      				<span id="closeTagsModal" class="close">&times;</span>
+    			</div>
+    			
+    			<div class="modal-body" th:object="${newTag}">
+    			<div class="form-popup-new">
+					<form  id="newTagsForm" th:action="@{/newTag}" method = "POST" class="form-container-new">				
+						<label class="formLabel"><b>Enter tag name</b></label>
+						<br>
+           				<input class="w3-round" type="text" placeholder="Enter tag name" name="tagName" th:field="*{name}" required >
+           				<br>
+           				<label class="formLabel" ><b>What is this tag for?</b></label>
+						<br>
+           				<input style="width:100%" class="w3-round" type="text" placeholder="Enter tag description" name="tagDescription" th:field="*{description}" required >
+           				<br>
+            			<hr style="border-color:#D4F5F5">
+            			<div style="margin-top:40px">
+            			<div class="w3-center"><label class="formLabel" >Chose a color</label>
+						<br>
+						 <fieldset style ="font-weight:700">
+  							<input type="radio" id="indigo" name="radio" value="indigo">
+  							<label class="formLabel" style="color:indigo"> Indigo </label><br>
+  							<input type="radio" id="green" name="radio" value="green">
+  							<label class="formLabel " style="color:green"> Green </label><br>
+  							<input type="radio" id="blue" name="radio" value="blue">
+  							<label class="formLabel" style="color:blue"> Blue </label><br>
+  							<input type="radio" id="red" name="radio" value="red">
+  							<label class="formLabel" style="color:red"> Red </label><br>
+           				</fieldset>
+           				</div>
+
+            			</div>
+        				<br><br>
+        				<div class="w3-center"><button type="submit" class="btn w3-hover-shadow w3-sand w3-large w3-round">Create</button></div>
+					</form>					
+				</div>
+   			 	</div>
+  			</div>
+  		</div>
+	
+	
+	
+	
+	<div class="w3-container" style="margin-top:3%">
+		<h3 style="color:white">Tags Available</h3>
+		<div style="margin-top:3%" th:each="tag : ${available}">
+			<hr>
+				<h2 th:if="${tag.color == 'blue'}" th:text="${tag.name}" th:style="'color:blue'"></h2>
+				<h2 th:if="${tag.color == 'red'}" th:text="${tag.name}" th:style="'color:red'"></h2>
+				<h2 th:if="${tag.color == 'green'}" th:text="${tag.name}" th:style="'color:green'"></h2>
+				<h2 th:if="${tag.color == 'indigo'}" th:text="${tag.name}" th:style="'color:indigo'"></h2>
+				
+				<br>
+				<h3 th:text="${tag.description}"></h3>
+			<hr>
+		</div>
+			
+		
+	
+	</div>
+	
+	</div>
+	
+	<script th:inline="javascript">
+	/*Manage the new project modal form*/
+	var modal = document.getElementById("modalTags");
+
+	var btn = document.getElementById("newTag");
+
+	var span = document.getElementById("closeTagsModal");
+
+
+	btn.onclick = function() {
+	modal.style.display = "block";
+	}
+
+	span.onclick = function() {
+	modal.style.display = "none";
+	}
+
+
+	window.onclick = function(event) {
+	if (event.target == modal) {
+	modal.style.display = "none";
+	}
+
+	}
+	</script>
+</body>
+</html>

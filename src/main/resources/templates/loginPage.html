@@ -11,7 +11,9 @@
 </head>
 
 <body class="align">
-	<h1 th:if="${registrationCompleted}" style="color:#7FFFD4">Registration completed</h1> <div><h2 style="color:#B7ADCF" th:if="${registrationCompleted}">Log in and start to manage your Projects!</h2></div>
+	<h1 th:if="${registrationCompleted}" style="color:#7FFFD4">Registration completed</h1>
+	<div><h2 style="color:#B7ADCF" th:if="${registrationCompleted}">Log in and start to manage your Projects!</h2></div>
+	
 	<header>
 		<strong style="color: #7FFFD4"> Tudù </strong>
 	</header>
@@ -36,6 +38,12 @@
 
 	<p class="text--center">
 		Not a member? <a th:href="@{/signUp}" style="color: #B7ADCF">Sign up now</a>
+	</p>
+	
+	<!-- OAuth clients -->
+	<h3>Login with:</h3>
+	<p th:each="url : ${urls}">
+    <a th:text="${url.key}" th:href="${url.value}">Client</a>
 	</p>
 
 

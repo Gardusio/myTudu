@@ -1,5 +1,6 @@
 package my.spring.siw.tud.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 //import java.util.*;
@@ -30,14 +31,12 @@ public class Task {
 	private Utente assignedTo;
 
 	/*
-	 * estensione
-	@OneToMany(//will this be bidirectional? :mappedBy = " "
-			//if so, would this mean that tags are assignable just to specific tasks?
-			fetch = FetchType.EAGER,
+	@OneToMany(
+			fetch = FetchType.LAZY,
 			cascade = CascadeType.REMOVE)
 	private List<Tag> taskTags;
+	*/
 
-*/	
 	@OneToMany(mappedBy="task", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
 	private List<Comment> comments;
 
@@ -76,15 +75,12 @@ public class Task {
 	 * Business Logic Methods
 	 */
 	
-	//TODO
 	/*
-	 * estensione
-	 
 	public void addTag(Tag tag) {
 		this.taskTags.add(tag);
 	}
-	
 	*/
+	
 	public void addComment(Comment c) {
 		this.comments.add(c);	
 	}
@@ -92,7 +88,7 @@ public class Task {
 	/*
 	 * Getters n Setters
 	 */
-	public LocalDateTime getCreationTime() { return creationTime; }
+	public LocalDate getCreationTime() { return creationTime.toLocalDate(); }
 	public String getDescription() { return description; }
 	public Long getId() { return id; }
 	public String getName() { return name; }

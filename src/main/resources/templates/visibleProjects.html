@@ -7,6 +7,7 @@
 	<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css}">
 	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
 	<link rel="stylesheet" th:href="@{/css/profileCSS.css}">
+	<link rel="stylesheet" th:href="@{/css/modalForm.css}">
 </head>
 
 <style>
@@ -30,12 +31,14 @@
 					th:href="@{'/visibleProjectPage' + '/' + ${project.id}}"
 					th:text="${project.name}"></a>
 					
+					<div th:text="'Owner: ' + ${project.owner.name}"></div>
+					
 					<div class="btn w3-right" > 
 					<a class="btn btn-danger w3-black w3-hover-shadow" th:href="@{'/leaveProject' + '/' + ${project.id}}"> Leave</a>
 					</div>
 					
 					<div class="nav nav-pills card-header-pills">
-					<div> You have <span th:text="${projectToTaskAssigned.get(project)}"> </span> task assigned</div>
+					<div><span th:text="${projectToTaskAssigned.get(project)}"></span> task assigned</div>
 					</div>
 				</div>
   
@@ -61,5 +64,7 @@
 			</div>
 		</div>
 		</div>
+		
+<script th:replace="fragments/base.html :: formsScript"></script>
 </body>
 </html>

@@ -40,6 +40,7 @@ public class UserController {
 	@Autowired
 	private CredentialsValidator credentialsValidator;
 	
+	
 	@RequestMapping(value="/userDetails", method = RequestMethod.GET)
 	public String showUserDetails(Model model) {
 		Credentials current = sessionData.getLoggedCredentials();
@@ -53,7 +54,7 @@ public class UserController {
 		return "details"; 
 	}
 	
-	//make it realistic
+	
 	@RequestMapping(value="/editDetails", method = RequestMethod.POST)
 	public String editDetails(Model model, RedirectAttributes redirectAttributes,
 			@RequestParam("username") String username, @RequestParam("password") String password) {

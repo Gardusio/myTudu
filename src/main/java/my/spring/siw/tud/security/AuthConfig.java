@@ -29,7 +29,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
 		http
 		.authorizeRequests()
 		.antMatchers(HttpMethod.GET,"/","/index","/login","/signUp").permitAll()
-		.antMatchers(HttpMethod.POST,"/login","/signUp","/save").permitAll() //why is save needed?
+		.antMatchers(HttpMethod.POST,"/login","/signUp","/save").permitAll() 
 		.antMatchers(HttpMethod.GET, "/resources/**","/css/**").permitAll()
 		.antMatchers(HttpMethod.GET, "/admin").hasAnyAuthority(Credentials.ADMIN_ROLE)
 		.anyRequest().authenticated()
@@ -41,10 +41,15 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
 		.loginProcessingUrl("/login")
 		.defaultSuccessUrl("/profile")
 		.and()
+		.oauth2Login()
+		.loginPage("/login")
+		.defaultSuccessUrl("/profile")
+		.and()
 		.logout()
 		.logoutUrl("/logout")
 		.clearAuthentication(true)
 		.logoutSuccessUrl("/index");
+		
 	}
 	
 	@Override
@@ -56,3 +61,11 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
 	}
 
 }
+
+/*
+ * 
+ * @Override
+	protected void configure(HttpSecurity http) throws Exception {
+
+	}
+ * */

@@ -40,15 +40,12 @@ public class TaskController {
 	@Autowired
 	private Session sessionData;
 	
-	private Task currentTask;
-	
 	
 	
 	@RequestMapping(value="/taskPage/{id}", method=RequestMethod.GET)
 	public String showTaskPage(@PathVariable("id") Long id, Model model) {
 		Credentials currentCredentials = sessionData.getLoggedCredentials();
 		Task thisTask = this.taskService.findById(id);
-		this.currentTask = thisTask;
 		
 		model.addAttribute("thisTask", thisTask);
 		model.addAttribute("currentCredentials", currentCredentials);
@@ -56,10 +53,10 @@ public class TaskController {
 		return "task";
 	}
 	
-	@RequestMapping(value="/newTask/{pId}", method=RequestMethod.POST) //changed POST
+	@RequestMapping(value="/newTask/{pId}", method=RequestMethod.POST)
 	public String newTask(Model model,@PathVariable("pId") Long id,
-			@RequestParam("taskName") String taskName,
-			@RequestParam("taskDescription") String taskDescription) {
+			@RequestParam("name") String taskName,
+			@RequestParam("description") String taskDescription) {
 		
 		Task newTask = new Task(taskName,taskDescription);
 		Project proj = this.projectService.findById(id);
@@ -107,12 +104,12 @@ public class TaskController {
 			@RequestParam("taskName") String newName,
 			@RequestParam("taskDescription") String newDescription) {
 		
-		Task t = this.currentTask;
+		Task t = this.taskService.findById(id);
 		t.setName(newName);
 		t.setDescription(newDescription);
 		this.taskService.saveTask(t);
 		
-		return "redirect:/taskPage" + "/" + t.getId().toString();
+		return "redirect:/projectPage" + "/" + t.getProject().getId().toString();
 	}
 	
 	@RequestMapping(value="/addComment/{id}", method= RequestMethod.POST)
@@ -156,6 +153,10 @@ public class TaskController {
 			t.setCompleted(false);
 		
 		this.taskService.saveTask(t);
-		return "redirect:/taskPage/" + id.toString();
+		
+		if(!(this.sessionData.getLoggedUser().equals(t.getProject().getOwner())))
+			return "redirect:/visibleProjectPage/" + t.getProject().getId().toString();
+		
+		return "redirect:/projectPage/" + t.getProject().getId().toString();
 	}
 }

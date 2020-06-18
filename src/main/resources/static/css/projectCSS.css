@@ -1,0 +1,95 @@
+:root {
+	--rosa: #EA4C88;
+	--acquamarine:#7FFFD4;
+	--bodyGray: #2c3338;
+	--welcomeBlue: #B7ADCF;
+	--lightBlue:#87bcde;
+}
+header {
+color:white;
+font-family: Raleway;
+text-align: center;
+}
+
+header > h2 {font-size: 60px;}
+
+header > .projDesc {font-size: 30px; color:gray;}
+
+hr {
+margin-right:3%;
+border:1px solid #D4F5F5;
+
+}
+
+.hrTask {
+border:1px solid #D4F5F5;
+}
+
+
+.form-container > h1 {
+color:var(--bodyGray);
+margin-bottom:20px;
+}
+
+#buttonsHeaderContainer {
+margin-left:39%;
+margin-top:40px;
+margin-bottom:10px;
+}
+
+#dropDownMembers {
+	width:220px;
+}
+
+.taskTitle {
+font-size:40px;
+font-family: Raleway;
+color: #D4F5F5;
+font-weight:500;
+}
+
+.header-left {
+margin-bottom:10px;
+margin-top:10px;
+}
+
+.taskDesc {
+margin-top:10px;
+font-size:20px;
+height:auto;
+color:white;
+}
+
+#wrapper {
+margin-left:2%;
+margin-right:2%;
+margin-top:10%;
+}
+
+#dropComments {
+width:100%;
+margin-top:5%;
+}
+
+h3 {
+	font-family: Raleway;
+	color:white;
+	font-size:30px;
+	font-weight:500;
+}
+
+#new {
+	background-color: var(--acquamarine);
+	font-family: Lato,Helvetica;
+	font-size:30px;
+	font-weight: 550;
+	color: var(--bodyGray);white;white;black;
+	border: 3px solid var(--acquamarine);
+	margin-top:2%;
+}
+
+.messages {
+	color:var(--acquamarine);
+	margin-top:30px;
+	font-family:Raleway;
+}

@@ -24,31 +24,30 @@ h5 {
 }
 
 #new {
-	background-color: #D4F5F5;var(--acquamarine);
+	background-color: var(--acquamarine);
 	font-family: Lato,Helvetica;
 	font-size:30px;
 	font-weight: 550;
-	color: var(--bodygray);white;black;
+	color: var(--rosa);white;white;black;
 	border: 3px solid var(--acquamarine);
 }
 
 </style>
 
 <body class="body">
-<div th:insert="fragments/base.html :: sidebar"></div>
-
+<div th:replace="fragments/base.html :: sidebar"></div> <!-- SIDEBAR -->
+	
+	<!-- Content -->
+	
 	<header style="margin-left:18%">
 		<h1 class="pageTitle"> Your Projects </h1>
-				
-		<div  class="w3-center" style="margin-top:35px">
-			<a id="myBtn">
-			<button id="new" class="w3-btn w3-round-xxlarge w3-large w3-hover-shadow">+</button></a>
-		</div>
-			<div id="myModal" class="modal">
+		
+			<!-- Modal form to create new project -->
+			<div id="modalProject" class="modal">
   				<div class="modal-content">
     			<div class="modal-header">
      				 <h2>New Project</h2>
-      				<span class="close">&times;</span>
+      				<span id="closeProjectModal" class="close">&times;</span>
     			</div>
     			
     			<div class="modal-body" th:object="${newProject}">
@@ -72,39 +71,43 @@ h5 {
 					</form>					
 				</div>
    			 	</div>
-    			
   				</div>
   			</div>
-		
-		
 	</header>
 	
+	<!-- Messages spot -->
 	<h5>
 		<span th:if="${added}" th:text="${added}" ></span>
 		<span th:if="${couldNotAdd}" th:text="${couldNotAdd}" ></span>
 	</h5>
 	
-	
+	<!-- Grid of cards: Owned projects -->
 	<div class="wrapper">
 	<div th:each="project  : ${projects}">
 	 	<div id="gridElem" class="card text-left">
+			
+			<!-- Card header -->
 			<div id="cardHeader" class="card-header">
 				<a class ="titleProject  w3-hover-none" 
 				th:href="@{'/projectPage' + '/' + ${project.id}}"
 				th:text="${project.name}">Serra Automatica</a>
 				
+				<!-- Buttons in card header -->
+				
+				<!-- delete -->
 				<div class="btn w3-right" > 
 				<a class="btn btn-danger w3-black w3-hover-shadow w3-small" th:href="@{'/deleteProject' + '/' + ${project.id}}"> 
 				<i class="fa fa-trash-o fa-lg"></i>
 				</a>
 				</div>
- 		
+				
+ 				<!-- Add members-->
 				<ul class="nav nav-pills card-header-pills">
 				<li class="btn"> 
-						<a class="nav-link w3-pale-blue w3-small w3-hover-shadow" th:onclick="openForm('[(${projectStat.index})]')"> 
+						<a class="nav-link w3-pale-blue w3-small w3-hover-shadow" th:onclick="openMultipleForm('[(${projectStat.index})]', 'members')"> 
 						<i class="fa fa-user-plus"></i>Invite</a>
 						
-						<div class="form-popup">
+						<div class="form-popup members">
 							<form  th:action="@{'/addMember' + '/' + ${project.id}}" method = "POST" class="form-container">
 						
 								<h1 style="font-family:'Raleway'">Add Members</h1>
@@ -112,12 +115,13 @@ h5 {
 								<input type="text" placeholder="Enter Username" th:name="memberUsername" required>
 
 								<button type="submit" class="btn w3-small w3-hover-shadow w3-pink">Add</button>
-								<button type="button" class="btn cancel w3-small w3-hover-shadow w3-black" th:onclick="closeForm('[(${projectStat.index})]')">Close</button>	
+								<button type="button" class="btn cancel w3-small w3-hover-shadow w3-black" th:onclick="closeMultipleForm('[(${projectStat.index})]', 'members')">Close</button>	
 							</form>
 						
 						</div>
 					</li>
 					
+					<!-- show members -->
 					<li class="btn w3-dropdown-hover"> 
 					<a class="nav-link w3-sand w3-small w3-hover-shadow"> <i class="fa fa-users"></i> Members</a>
 						<div id="dropDownMembers" class="w3-dropdown-content w3-bar-block" >
@@ -127,76 +131,50 @@ h5 {
 							<span th:text="|${member.name} ${member.surname}|"></span>
 							<div class="btn btn-danger w3-tiny w3-right"><a th:href="@{/kickMember/{memberId}/from/{projectId} (memberId=${member.id},projectId=${project.id})}" style="color:white">Kick</a></div>
 							</div>
-							
-							
-							
 							</div>
 						</div>
    						 </div>
 					</li>
 				</ul>
 			</div>
-  
+  			
+  			<!-- Card body: Project description -->
 			<div id="cardBody" class="card-body">
 				<p id = "desc" class="card-text" 
 				th:text="${project.description}">
 				</p>
 				<br>
 				<ul class="nav nav-pills card-header-pills w3-right">
-				<li class="btn"> <a class="nav-link w3-tiny w3-hover-shadow w3-pale-red w3-round"> <i class="fa fa-tags"></i> Add</a></li>
-
+				<li class="btn"> 
+				<a class="nav-link w3-tiny w3-hover-shadow w3-pale-red w3-round" th:onclick="openMultipleForm('[(${projectStat.index})]', 'tags')"> <i class="fa fa-tags"></i> Add</a>
+				<div class="form-popup tags">
+					<form  th:action="@{'/addTag' + '/' + ${project.id}}" method = "POST" class="form-container">
+						<h1 style="font-family:'Raleway'">Add some Tags</h1>
+						<label for="email"><b>Tags available </b></label>
+						<input type="text" placeholder="Enter tag name" th:name="tagName" required>
+						<button type="submit" class="btn w3-small w3-hover-shadow w3-pink">Add</button>
+						<button type="button" class="btn cancel w3-small w3-hover-shadow w3-black" th:onclick="closeMultipleForm('[(${projectStat.index})]', 'tags')">Close</button>	
+					</form>	
+				</div>
+				</li>
 				</ul>
 				
+				<!-- Project tags -->
+				<div class="w3-bar">
+					<section th:each="tag : ${project.projectTags}">
+					<span th:if="${tag.color == 'blue'}" th:text="${tag.name}" class="w3-tag w3-small w3-blue w3-left"></span>
+					<span th:if="${tag.color == 'indigo'}" th:text="${tag.name}" class="w3-tag w3-small w3-indigo w3-left"></span>
+					<span th:if="${tag.color == 'green'}" th:text="${tag.name}" class="w3-tag w3-small w3-green w3-left"></span>
+					<span th:if="${tag.color == 'red'}" th:text="${tag.name}" class="w3-tag w3-small w3-red w3-left"></span>
+					</section>
+				</div>
 			</div>
 		</div>
 	</div>
 	
 </div>
 
-
-<script th:inline="javascript">
-
-
-function openForm(project) {
- var forms = document.getElementsByClassName("form-popup");
- forms[Number(project)].style.display = "block";
-}
-
-function closeForm(project) {
-  var forms = document.getElementsByClassName("form-popup");
-  forms[Number(project)].style.display = "none";
-}
-
-
-//Get the modal
-var modal = document.getElementById("myModal");
-
-//Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-
-//Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-//When the user clicks the button, open the modal 
-btn.onclick = function() {
-modal.style.display = "block";
-}
-
-//When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-modal.style.display = "none";
-}
-
-//When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-if (event.target == modal) {
- modal.style.display = "none";
-}
-}
-</script>
-
-
-
-
+<!-- modal forms and other functions on forms -->
+<script th:replace="fragments/base.html :: formsScript"></script>
 </body>
 </html>

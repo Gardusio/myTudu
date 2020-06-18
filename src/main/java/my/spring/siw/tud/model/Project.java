@@ -34,18 +34,14 @@ public class Project {
 			fetch = FetchType.LAZY)
 	private List<Task> projectTasks;
 
-	/* estensione
-	@OneToMany(
-			cascade = CascadeType.REMOVE,
-			fetch = FetchType.LAZY)
+	@OneToMany()
 	private List<Tag> projectTags;
-	 */
 	
 	public Project() {
 		this.members = new ArrayList<Utente>();
 		this.projectTasks = new ArrayList<Task>();
 		this.isActive=true;
-		//this.projectTags= new ArrayList<Tag>();
+		this.projectTags= new ArrayList<Tag>();
 	}
 	
 	public Project(String name, String description) {
@@ -72,7 +68,7 @@ public class Project {
 	}
 
 	/*
-	 * Business Logic methods TODO
+	 * Business Logic methods
 	 */
 	public void addMember(Utente member) {
 		this.members.add(member);
@@ -82,18 +78,14 @@ public class Project {
 		this.projectTasks.add(newTask);
 	}
 	
-
-	
-
-	/*
 	public void addTag(Tag tag) {
 		this.projectTags.add(tag);
 	}
-	*/
+
 	
 	//TODO
 	//deleteTag
-	//deleteMember
+	
 	
 	/*
 	 * Getter n Setter
@@ -104,7 +96,7 @@ public class Project {
 	public String getName() { return name; }
 	public Utente getOwner() { return owner; }
 	public List<Task> getProjectTasks() { return projectTasks; }
-	//public List<Tag> getProjectTags() { return projectTags; }
+	public List<Tag> getProjectTags() { return projectTags; }
 	public LocalDateTime getCreationTime() { return creationTime; }
 	public LocalDateTime getLastUpdateTime() { return lastUpdateTime; }
 	public boolean getIsActive() {return this.isActive;}
@@ -114,7 +106,7 @@ public class Project {
 	public void setName(String name) { this.name = name; } 
 	public void setOwner(Utente owner) { this.owner = owner; }
 	public void setProjectTasks(List<Task> projectTasks) { this.projectTasks = projectTasks; }
-	//public void setProjectTags(List<Tag> projectTags) { this.projectTags = projectTags; }
+	public void setProjectTags(List<Tag> projectTags) { this.projectTags = projectTags; }
 	public void setActive(boolean isActive) {this.isActive = isActive; }
 	
 	/* 

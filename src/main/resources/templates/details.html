@@ -12,11 +12,12 @@
 
 <body class="body" th:object="${currentCredentials}">
 <div th:insert="fragments/base.html :: sidebar"></div>
-<div style="margin-left:20%">
-<h3 th:text ="*{username}"></h3>
-<div>
+	<div style="margin-left:20%">
+		<h3 th:text ="*{username}"></h3>
+	
+	<div>
 	<button class="open-button" onclick="openForm()">Edit</button>
-		<div class="form-popup" id="myForm"> 
+		<div class="form-popup" id="details"> 
   		<form th:action="@{'/editDetails'}" method = "POST" class="form-container">
    			<h1>Edit your account details</h1>
     		<label for="username"><b>Change your Username</b></label>
@@ -28,22 +29,24 @@
     		<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
   		</form>
   		</div>
- 
-
- </div>
- 
- <h4 th:if="${changed}">Details updated!</h4>
- <h4 th:if="${notValid}" th:text="${notValid}"></h4>
+  	</div>
+ 	
+ 	
+ 	<div class="w3-center">
+ 		<h4 th:if="${changed}">Details updated!</h4>
+ 		<h4 th:if="${notValid}" th:text="${notValid}"></h4>
+		</div>
 </div>
+
 
 
 <script>
 function openForm() {
-  document.getElementById("myForm").style.display = "block";
+  document.getElementById("details").style.display = "block";
 }
 
 function closeForm() {
-  document.getElementById("myForm").style.display = "none";
+  document.getElementById("details").style.display = "none";
 }
 </script>
 

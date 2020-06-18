@@ -15,6 +15,10 @@ public class Utente {
 	//@Column(nullable = false, length = 100)
 	private String surname;
 	
+	private String email;
+	
+	private boolean isRegisteredWithOAuth; // support field to reduce the security-bug with OAuth
+	
 	//@Column(updatable = false, nullable = false)
 	private LocalDateTime creationTime;
 	//@Column(nullable = false)
@@ -83,13 +87,22 @@ public class Utente {
 	public String getSurname() { return surname; }
 	public List<Project> getVisibleProjects() { return visibleProjects;}
 	public List<Task> getAssignments() { return assignments; }
-
+	public boolean getRegisteredWithOAuth() {return this.isRegisteredWithOAuth;}
+	public String getEmail() {
+		return email;
+	}
 	
 	public void setName(String name) { this.name = name; }
 	public void setOwnedProjects(List<Project> ownedProjects) { this.ownedProjects = ownedProjects; }
 	public void setSurname(String surname) {this.surname = surname; }
 	public void setVisibleProjects(List<Project> visibleProjects) { this.visibleProjects = visibleProjects; }
 	public void setAssignments(List<Task> assignments) { this.assignments = assignments; }
+	public void setRegisteredWithOAuth(boolean isRegisteredWithOAuth) {
+		this.isRegisteredWithOAuth = isRegisteredWithOAuth;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	
 	/*
@@ -107,6 +120,8 @@ public class Utente {
 	@Override
 	public boolean equals(Object obj) {
 		Utente that = (Utente) obj;
+		if(that==null)
+			return false;
 		return this.name.equals(that.getName()) && this.surname.equals(that.getSurname()) && this.creationTime.equals(that.getCreationTime());
 	}
 	@Override

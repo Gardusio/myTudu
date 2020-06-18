@@ -16,19 +16,25 @@
    <div class="w3-card-4" style="background-color:white"><br>
 	<div class= "menu">Menu</div>
 	<div class="w3-container">
-		<div class="li"><a th:href="@{/newProject}" class ="w3-bar-item w3-button w3-hover-shadow w3-hover-white"><i style="margin-right:10px" class="fa fa-plus-square"></i>Create Project</a></div>
+		<div class="li">
+		<a id="newProject" class ="w3-bar-item w3-button w3-hover-shadow w3-hover-white">
+		<i style="margin-right:10px" class="fa fa-plus-square"></i>Create Project
+		</a>
+		</div>
+		<section th:fragment="sharedMenu">
 		<br>
 		<div class="li"><a th:href="@{/showOwnedProjects}" class ="w3-bar-item w3-button w3-hover-shadow w3-hover-white"><i style="margin-right:10px" class="fa fa-user"></i>Owned Projects</a></div>
 		<br>
 		<div class="li"><a th:href="@{/showVisibleProjects}" class ="w3-bar-item w3-button w3-hover-shadow w3-hover-white"><i style="margin-right:10px" class="fa fa-users"></i>Visible Projects</a></div>
 		<br>
-		<div class="li"><a th:href="@{/showVisibleProjects}" class ="w3-bar-item w3-button w3-hover-shadow w3-hover-white"><i style="margin-right:10px" class="fa fa-tags"></i>Tags</a></div>
+		<div class="li"><a th:href= "@{/showTagsMenu}" class ="w3-bar-item w3-button w3-hover-shadow w3-hover-white"><i style="margin-right:10px" class="fa fa-tags"></i>Tags</a></div>
 		<br><br>
+		</section>
 	</div>
 	</div>
 	<br>
 	
-	<div class="details">
+	<div class="details" th:fragment="details">
     	<a class="username" th:text="${currentCredentials.username}" th:href="@{/userDetails}">Username</a>
 		<br><br>
         <div>
@@ -38,11 +44,66 @@
 		</div>
 	</div>
 	
-	<div id="logoutCard" class="w3-card-4 w3-bottom" style="width:17.8%">
+	<div id="logoutCard" class="w3-card-4 w3-bottom" style="width:17.8%" th:fragment="logout">
 		<a th:href="@{/about}" class="w3-bar-item w3-button w3-hover-shadow w3-hover-white" style="font-size:20px"> <i class="fa fa-question-circle w3-right"></i>About</a>
 		<a th:href="@{/logout}" class="w3-bar-item w3-button w3-hover-shadow" style="font-size:20px"><i class="fa fa-sign-out w3-right"></i>Logout</a>
     </div>
+    
 </div>
+
+
+
+
+<script th:inline="javascript" th:fragment="formsScript">
+
+/*Open all the forms, param "form" is used as a reference to the kind of form, "task" is a reference to the task on wich actions as to be performed */
+function openMultipleForm(task,form) {
+	 var forms = document.getElementsByClassName("form-popup" + " " + form);
+	 forms[Number(task)].style.display = "block";
+	}
+
+function closeMultipleForm(task,form) {
+	 var forms = document.getElementsByClassName("form-popup" + " " + form);
+	 forms[Number(task)].style.display = "none";
+	}
+
+/* Manage single-instance forms of different kinds, param "form" is used as above */
+function openSingleForm(form) {
+  document.getElementById(form).style.display = "block";
+}
+
+function closeSingleForm(form) {
+  document.getElementById(form).style.display = "none";
+}
+
+
+/*Manage the new project modal form*/
+var modal = document.getElementById("modalProject");
+
+var btn = document.getElementById("newProject");
+
+
+var span = document.getElementById("closeProjectModal");
+
+
+
+btn.onclick = function() {
+modal.style.display = "block";
+}
+
+span.onclick = function() {
+modal.style.display = "none";
+}
+
+
+window.onclick = function(event) {
+if (event.target == modal) {
+ modal.style.display = "none";
+ }
+
+}
+
+</script>
 
 </body>
 </html>

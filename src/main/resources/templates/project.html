@@ -7,148 +7,245 @@
 	<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css}">
 	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}">
 	<link rel="stylesheet" th:href="@{/css/popupFormCSS.css}">
+	<link rel="stylesheet" th:href="@{/css/modalForm.css}">
 	<link rel="stylesheet" th:href="@{/css/profileCSS.css}">
+	<link rel="stylesheet" th:href="@{/css/projectCSS.css}">
 </head>
 
-<style>
-
-
-</style>
 
 <body class="body" th:object="${thisProject}">
-<div th:insert="fragments/base.html :: sidebar"></div>
-<div style="margin-left:20%">
-<div>
-	<div th:text="*{name}">:</div> <span th:text="*{description}"></span>
-	
-	<div style="margin-bottom:20px">
-	<div>
-	<button class="open-button" onclick="openSingleForm('edit')">Edit</button>
-		<div class="form-popup" id="edit" >
-  		<form th:action="@{'/editProject' + '/' + ${thisProject.id}}" method = "POST" class="form-container">
-   			<h1>Edit Project infos</h1>
-    		<label for="taskName"><b>Name</b></label>
-    		<input type="text" placeholder="New name" th:name="name">
-    		<label for="taskName"><b>Description</b></label>
-    		<input type="text" placeholder="New description" th:name="description"  th:value="${thisProject.description}"required>
-
-    		<button type="submit" class="btn">Submit</button>
-    		<button type="button" class="btn cancel" onclick="closeSingleForm('edit')">Close</button>
-  		</form>
-  		</div> 	
-  		</div>
-</div>
-	
-	<h2 style="margin-top:60px">Tasks:</h2>
-	
-</div>
-
-
-<div style="margin-top:20px">
-	<button class="open-button" onclick="openSingleForm('newTask')">Add new Task</button>
-		<div class="form-popup" id="newTask">
-  		<form th:action="@{'/newTask' + '/' + ${thisProject.id}}" method = "POST" class="form-container">
-   			<h1>Enter Task details</h1>
-    		<label for="taskName"><b>Task Name</b></label>
-    		<input type="text" placeholder="Enter Task Name" th:name="taskName" required>
-    		<label for="taskName"><b>Description</b></label>
-    		<input type="text" placeholder="Enter Task Name" th:name="taskDescription" required>
-
-    		<button type="submit" class="btn">Add</button>
-    		<button type="button" class="btn cancel" onclick="closeSingleForm('newTask')">Close</button>
-  		</form>
-  		</div> 	
-</div>
-
-
-<div>
-<ul style="margin-top:100px">
-	<li th:each="task : ${tasks}" style="margin-top:120px"> 
-		<a th:text="${task.name} " th:href="@{'/taskPage' + '/' + ${task.id}}">taskName</a>
-		<form th:action="@{'/deleteTask' + '/' + ${task.id}}" method="GET">
-		<input type="submit" value="delete">
-		</form>
-
-		<button class="open-button" th:onclick="openMultipleAssignForm('[(${taskStat.index})]')">Assign task</button>
-		<div class="form-popup assign" id="assign">
-  		<form th:action="@{'/assignTask' + '/' + ${task.id}}" method = "POST" class="form-container">
-   			<h1>Assign this task to a member</h1>
-    		<label for="username"><b>Insert Member Username</b></label>
-    		<input type="text" placeholder="Enter Username" th:name="username" required>
-
-    		<button type="submit" class="btn">Assign</button>
-    		<button type="button" class="btn cancel" th:onclick="closeMultipleAssignForm('[(${taskStat.index})]')">Close</button>
-  		</form>	
-  		</div>
-  	
-  	<div style="margin-top:60px"> 
-  	<h6 th:if="${couldNotAssign}" th:text="${couldNotAssign}"></h6> 
-	<h6 th:if="${assigned}" th:text="${assigned}"></h6>  	
-  	</div>	
-  	
-  		<ul th:if="${task.comments}">
-  			<li th:each="comment : ${task.comments}" style="margin-top:100px">
-  			<div th:text="${comment.userCred.username}"></div>
-  			<div th:text="${comment.text}"></div>
-  			<div th:text="${comment.creationTime}"></div>
-  			
-  			<form th:if="${comment.userCred.user} == ${currentCredentials.user}" th:action="@{'/deleteComment' + '/' + ${comment.id}}" method="GET">
-			<input type="submit" value="delete">
-			</form>
-  			
-  			</li>
-  		</ul>
-  		
-  		<div>
-  		<button class="open-button" th:onclick="openMultipleCommentForm('[(${taskStat.index})]')">Add Comment</button>
+	<div th:insert="fragments/projectSidebar.html :: projectSidebar"></div>
+	<div style="margin-left:20%">
+	<!-- PROJECT INFOS -->
+	<header class="w3-container">
+		<h2 th:text="*{name}" class="pageTitle"></h2>	
+		<div class="projDesc" th:text ="*{description}"> </div>
 		
-		<div class="form-popup comment" id="comment">
-  		<form th:action="@{'/addComment' + '/' + ${task.id}}" method = "POST" class="form-container">
-    		<label for="commentText"><b>Post a Comment</b></label>
-    		<input type="text" placeholder="Write a Comment" th:name="comment" required>
-
-    		<button type="submit" class="btn">Post</button>
-    		<button type="button" class="btn cancel" th:onclick="closeMultipleCommentForm('[(${taskStat.index})]')">Close</button>
-  		</form>	
-  		</div>
-  		</div>
-	</li>
-</ul>
-</div>
-</div>
-
-
-
-
-<script th:inline="javascript">
-
-function openMultipleAssignForm(task) {
-	 var forms = document.getElementsByClassName("form-popup assign");
-	 forms[Number(task)].style.display = "block";
-	}
-
-function closeMultipleAssignForm(task) {
-	 var forms = document.getElementsByClassName("form-popup assign");
-	 forms[Number(task)].style.display = "none";
-	}
+		<!-- Edit Project form -->
+		<div style="margin-left:33.5%">
+		<div class="form-popup" id="edit" >
+  			<form th:action="@{'/editProject' + '/' + ${thisProject.id}}" method = "POST" class="form-container">
+   				<h1 style="color:gray">Edit Project infos</h1>
+    			<input type="text" placeholder="New name" th:name="name">
+    			<input type="text" placeholder="New description" th:name="description"  th:value="${thisProject.description}"required>
+    			<button type="submit" class="btn w3-green w3-small w3-round">Submit</button>
+    			<button type="button" class="btn cancel w3-black w3-small w3-round" onclick="closeSingleForm('edit')">Close</button>
+  			</form>
+  			</div> 
+		</div>
+		
+		<!-- Add members form-->
+		<div style="margin-left:33.5%">
+		<div class="form-popup" id="add">
+			<form  th:action="@{'/addMember' + '/' + ${thisProject.id}}" method = "POST" class="form-container">		
+				<h1 style="font-family:'Raleway'">Add Members</h1>
+				<label for="email"><b style="color:var(--bodyGray)">Insert Member Username</b></label>
+				<input type="text" placeholder="Enter Username" th:name="memberUsername" required>
+				<button type="submit" class="btn w3-small w3-hover-shadow w3-pink">Add</button>
+				<button type="button" class="btn cancel w3-small w3-hover-shadow w3-black" onclick="closeSingleForm('add')">Close</button>	
+			</form>		
+			</div>
+		</div>
+		
+		<!-- Header Buttons: Project Related -->
+		<div id="buttonsHeaderContainer" class="w3-bar">
+			<button class="nav-link w3-btn w3-black w3-round w3-small w3-bar-item" onclick="openSingleForm('edit')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button> 
+			<button style="margin-left:50px" class="nav-link w3-btn w3-pale-blue w3-small w3-round w3-hover-shadow w3-bar-item" onclick="openSingleForm('add')"> 
+		<i class="fa fa-user-plus"></i> Invite</button>
+		
+		<!-- Show Members -->			
+		<div class="w3-dropdown-hover" style="margin-left:50px"> 
+		<a class="w3-btn w3-bar-item nav-link w3-pale-red w3-small w3-round w3-hover-shadow" > <i class="fa fa-users"></i> Members</a>
+		<div id="dropDownMembers" class="w3-dropdown-content w3-bar-block" >
+			<div th:each="member : ${thisProject.members}">
+				<div class="w3-bar">
+					<div class="w3-bar-item">
+					<span th:text="|${member.name} ${member.surname}|"></span>
+					<div class=" btn btn-danger w3-tiny w3-right w3-round">
+					<a th:href="@{/kickMember/{memberId}/from/{projectId} (memberId=${member.id},projectId=${thisProject.id})}" style="color:white">Kick</a></div>
+					</div>
+				</div>
+			</div>
+   		</div>
+		</div>
+		</div>
+		
+	<br>
+	</header>
 	
-function openMultipleCommentForm(task) {
-	 var forms = document.getElementsByClassName("form-popup comment");
+	<!-- Project Tasks -->
+			<div id="modalTask" class="modal">
+  			<div class="modal-content">
+    			<div class="modal-header">
+     				<h2 style="margin-left:34%">New Task</h2>
+      				<span id="closeTaskModal" class="close">&times;</span>
+    			</div>
+    			
+    			<div class="modal-body" th:object="${newTask}">
+    			<div class="form-popup-new">
+					<form  id="newTaskForm" th:action="@{'/newTask' + '/' + ${thisProject.id}}" method = "POST" class="form-container-new">				
+						<label class="formLabel"><b>Your new Task Name</b></label>
+						<br>
+           				<input class="w3-round" type="text" placeholder="Enter task name" name="taskName" th:field="*{name}" required >
+           				<br>
+            			<hr style="border-color:#D4F5F5">
+            			<div style="margin-top:40px">
+            			<label class="formLabel" ><b>Task description - has to be less than 252 characters</b></label>
+						<br>
+           			 	<input id="descInput"class="w3-round" type="text" placeholder="Enter task description" name="taskDescription" th:field="*{description}" required>
+           				<br>
+            			</div>
+        				<br><br>
+        				<div class="w3-center"><button type="submit" class="btn w3-hover-shadow w3-sand w3-xlarge w3-round">Create</button></div>
+					</form>					
+				</div>
+   			 	</div>
+  			</div>
+  		</div>
+	
+	<br>
+	<div class="w3-container">
+	<!-- Messages spot -->
+	<div class="w3-center">
+		<div class="messages"> 
+  			<h6 th:if="${couldNotAssign}" th:text="${couldNotAssign}"></h6> 
+			<h6 th:if="${assigned}" th:text="${assigned}"></h6>  	
+			<h6 th:if="${added}" th:text="${added}"></h6>
+			<h6 th:if="${couldNotAdd}" th:text="${couldNotAdd}" ></h6>
+  		</div>	
+	</div>
+	<!-- Task List -->
+		<div th:each="task : ${tasks}" style="margin-top:60px">
+		<hr>
+			<div class="w3-center">
+				<h2 th:text="${task.name}" class="taskTitle"></h2>	
+				<div class="taskDesc" th:text ="${task.description}"> </div>
+				<div th:if="${task.isCompleted == true}" style="color:var(--acquamarine)">This task is completed! go on!</div>
+			</div>
+			<br>
+			<!-- Buttons : Task related -->
+			<!-- Add comment -->
+			<a style="margin-right:30px" class=" w3-blue w3-small w3-left btn w3-round w3-hover-shadow" th:onclick="openMultipleForm('[(${taskStat.index})]','comment')"> <i class="fa fa-users"></i>Add a Comment</a>
+				<div class="form-popup comment" id="edit" style="margin-top:3%"> 
+  					<form th:action="@{'/addComment' + '/' + ${task.id}}" method = "POST" class="form-container">
+   						<div class="w3-container w3-center">
+   							<h1>Add a comment to this task</h1>
+    						<input type="text" placeholder="Enter the comment" th:name="comment" required>
+    						<button type="submit" class="btn w3-small w3-hover-shadow w3-pink">Post</button>
+    						<button type="button" class="btn cancel w3-small w3-hover-shadow w3-black" th:onclick="closeMultipleForm('[(${taskStat.index})]','comment')">Close</button>
+  						</div>
+  					</form>
+  				</div>
+			
+			<!-- Show comments -->
+			<div class="w3-dropdown-hover w3-left" style="margin-right:30px"> 
+			<a class=" w3-pale-yellow w3-small w3-left btn w3-round w3-hover-shadow"> <i class="fa fa-users"></i> Comments</a>
+			<div id="dropDownMembers" class="w3-dropdown-content w3-bar-block">
+				<div th:each="comment : ${task.comments}">
+					<div class="card text-left">
+						<div class="card-header" th:text="${comment.userCred.username}"></div>
+						<div class="card-body" th:text="${comment.text}"></div>
+					</div>	
+				</div>
+   			 </div>
+   			</div>
+					
+			<!-- Assign Task -->
+			<a style="margin-right:30px" class="w3-left btn w3-round w3-white w3-small w3-hover-shadow" th:onclick="openMultipleForm('[(${taskStat.index})]','assign')"> <i class="fa fa-user-plus"></i> Assign</a>	
+		 	<div class="form-popup assign" id="assign" style="margin-top:3%">
+		 		<div class="w3-center">
+		 		<form th:action="@{'/assignTask/' + ${task.id}}" method = "POST" class="form-container">				
+			 		<h2 style="font-family:Raleway">Assign this task</h2>
+		     		<label for="username"><b>Insert Member Username</b></label>
+			 		<input type="text" placeholder="Enter Username" th:name="username" required>
+					<button type="submit" class="btn w3-small w3-hover-shadow w3-pink">Assign</button>
+					<button type="button" class="btn cancel w3-small w3-hover-shadow w3-black" th:onclick="closeMultipleForm('[(${taskStat.index})]','assign')">Close</button>	
+   				</form>
+   				</div>
+ 				</div>
+ 				
+ 			<!-- Set completed -->	
+ 			<a style="margin-right:30px"  class="btn w3-green w3-hover-shadow w3-small w3-left" th:href="@{'/setCompleted/' + ${task.id}}"> 
+			<i class="fa fa-check-square fa-lg"></i>
+			</a>
+ 			
+ 			<!-- Edit task details -->	
+ 			<a th:if="${currentUser} == ${task.project.owner}" class="btn w3-round w3-small w3-black w3-left" th:onclick="openMultipleForm('[(${taskStat.index})]','edit')">Edit</a>
+				<div class="form-popup edit" id="edit" style="margin-top:3%">
+  					<form th:action="@{'/editTask' + '/' + ${task.id}}" method = "POST" class="form-container">
+   						<div class="w3-container w3-center">
+   							<h1>Edit task details</h1>
+    						<label for="taskName"><b>Edit Name</b></label>
+    						<input type="text" placeholder="Enter a new name" th:name="taskName" required>
+    						<label for="taskName"><b>Edit Description</b></label>
+    						<input type="text" placeholder="Enter Task Name" th:name="taskDescription" required>
+    						<button type="submit" class="btn w3-small w3-hover-shadow w3-pink">Edit</button>
+    						<button type="button" class="btn cancel w3-small w3-hover-shadow w3-black" th:onclick="closeMultipleForm('[(${taskStat.index})]','edit')">Close</button>
+  						</div>
+  					</form>
+  				</div>
+ 				
+ 			<!-- Delete task -->
+ 			<a style="margin-right:45px"class="btn btn-danger w3-red w3-hover-shadow w3-small w3-right " th:href="@{'/deleteTask' + '/' + ${task.id}}"> 
+			<i class="fa fa-trash-o fa-lg"></i>
+			</a>
+				
+			<div class="w3-right" th:text="'Created' + ' ' + ${task.creationTime}" style="color:gray"></div>		
+			<br>
+			<hr>
+		</div>
+	</div>
+</div>
+			
+
+
+<script>
+function openMultipleForm(task,form) {
+	 var forms = document.getElementsByClassName("form-popup" + " " + form);
 	 forms[Number(task)].style.display = "block";
 	}
 
-function closeMultipleCommentForm(task) {
-	 var forms = document.getElementsByClassName("form-popup comment");
+function closeMultipleForm(task,form) {
+	 var forms = document.getElementsByClassName("form-popup" + " " + form);
 	 forms[Number(task)].style.display = "none";
 	}
 
+/* Manage single-instance forms of different kinds, param "form" is used as above */
 function openSingleForm(form) {
-  document.getElementById(form).style.display = "block";
+ document.getElementById(form).style.display = "block";
 }
 
 function closeSingleForm(form) {
-  document.getElementById(form).style.display = "none";
+ document.getElementById(form).style.display = "none";
 }
+
+
+/*Manage the new project modal form*/
+var modal = document.getElementById("modalTask");
+
+var btn = document.getElementById("newTask");
+
+
+var span = document.getElementById("closeTaskModal");
+
+
+
+btn.onclick = function() {
+modal.style.display = "block";
+}
+
+span.onclick = function() {
+modal.style.display = "none";
+}
+
+
+window.onclick = function(event) {
+if (event.target == modal) {
+modal.style.display = "none";
+}
+
+}
+
 
 </script>
 </body>
