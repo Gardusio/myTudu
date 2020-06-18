@@ -17,8 +17,13 @@ public class Tag {
 	//@Column(nullable = false)
 	private String description;
 	
+	@ManyToOne()
+	private Utente user;
 	
 	
+	public Utente getUser() {
+		return user;
+	}
 	public String getColor() { return color; }
 	public String getDescription() { return description; }
 	public String getName() { return name; }
@@ -29,6 +34,9 @@ public class Tag {
 	public void setColor(String color) { this.color = color;}
 	public void setDescription(String description) { this.description = description; }
 	public void setName(String name) { this.name = name; }
+	public void setUser(Utente user) {
+		this.user = user;
+	}
 	
 	@Override
 	public boolean equals(Object obj) {

@@ -1,4 +1,4 @@
-package my.spring.siw.tud.model;
+ package my.spring.siw.tud.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class Project {
 			fetch = FetchType.LAZY)
 	private List<Task> projectTasks;
 
-	@OneToMany()
+	@ManyToMany()
 	private List<Tag> projectTags;
 	
 	public Project() {

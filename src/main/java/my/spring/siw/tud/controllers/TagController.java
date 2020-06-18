@@ -27,7 +27,7 @@ public class TagController {
 		model.addAttribute("currentCredentials", this.sessionData.getLoggedCredentials());
 		model.addAttribute("currentUser", this.sessionData.getLoggedUser());
 		
-		model.addAttribute("available",this.tagService.getAllTags());
+		model.addAttribute("available",this.tagService.findByUser(this.sessionData.getLoggedUser()));
 		
 		model.addAttribute("newTag" ,new Tag());
 		return "tagsMenu";
@@ -39,6 +39,7 @@ public class TagController {
 		tag.setColor(color);
 		tag.setName(newTag.getName());
 		tag.setDescription(newTag.getDescription());
+		tag.setUser(this.sessionData.getLoggedUser());
 		
 		this.tagService.save(tag);
 		

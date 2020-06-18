@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import my.spring.siw.tud.controllers.session.Session;
 import my.spring.siw.tud.model.Credentials;
 import my.spring.siw.tud.model.Project;
@@ -213,9 +215,13 @@ public class ProjectController {
 	
 	@RequestMapping(value="/addTag/{id}", method=RequestMethod.POST) 
 	public String addTagToProject(Model model, @PathVariable("id") Long id, @RequestParam("tagName") String tagName){
-		Tag t = this.tagService.findByName(tagName);
+		
+		List<Tag> tags = this.tagService.findByUser(this.sessionData.getLoggedUser());
+		List <Tag> t = tags.stream()
+					   .filter(tag -> tag.getName().equals(tagName)).collect(Collectors.toList());
+		
 		Project p = this.projectService.findById(id);
-		p.getProjectTags().add(t);
+		p.getProjectTags().add(t.get(0));
 		this.projectService.saveProject(p);
 		return "redirect:/showOwnedProjects";
 	}

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import my.spring.siw.tud.model.Tag;
+import my.spring.siw.tud.model.Utente;
 import my.spring.siw.tud.persistence.TagRepository;
 
 @Service
@@ -46,5 +47,12 @@ public class TagService {
 		return retrieved.orElse(null);
 	}
 	
+	public List<Tag> findByUser(Utente u) {
+		Optional<List<Tag>> retrieved = this.tagsRepo.findByUser(u);
+		return retrieved.orElse(null);
+	}
+
+
+
 
 }

@@ -37,6 +37,10 @@ public class Utente {
 			fetch = FetchType.LAZY)
 	private List<Task> assignments;
 	
+	@OneToMany(mappedBy="user",
+			fetch = FetchType.LAZY)
+	private List<Tag> myTags;
+	
 	
 	
 	public Utente() {
