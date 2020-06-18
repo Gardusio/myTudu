@@ -68,17 +68,21 @@
 	
 	
 	<div class="w3-container" style="margin-top:3%">
-		<h3 style="color:white">Tags Available</h3>
+		<h1 style="color:white">Tags Available</h1>
 		<div style="margin-top:3%" th:each="tag : ${available}">
-			<hr>
+			<hr style="border-color:gray">
+				
 				<h2 th:if="${tag.color == 'blue'}" th:text="${tag.name}" th:style="'color:blue'"></h2>
 				<h2 th:if="${tag.color == 'red'}" th:text="${tag.name}" th:style="'color:red'"></h2>
 				<h2 th:if="${tag.color == 'green'}" th:text="${tag.name}" th:style="'color:green'"></h2>
 				<h2 th:if="${tag.color == 'indigo'}" th:text="${tag.name}" th:style="'color:indigo'"></h2>
 				
+				<a style="margin-right:20px"class="btn btn-danger w3-red w3-hover-shadow w3-right " th:href="@{'/deleteTag' + '/' + ${tag.id}}"> 
+				<i class="fa fa-trash-o fa-lg"> Delete</i>
+				</a>
 				<br>
-				<h3 th:text="${tag.description}"></h3>
-			<hr>
+				<h6 style="color:white" th:text="${tag.description}"></h6>
+			<hr style="border-color:gray">
 		</div>
 			
 		

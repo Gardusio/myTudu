@@ -22,6 +22,9 @@ public class Tag {
 	public String getColor() { return color; }
 	public String getDescription() { return description; }
 	public String getName() { return name; }
+	public Long getId() {
+		return id;
+	}
 	
 	public void setColor(String color) { this.color = color;}
 	public void setDescription(String description) { this.description = description; }
