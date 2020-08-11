@@ -20,8 +20,8 @@ import my.spring.siw.tud.model.Task;
 import my.spring.siw.tud.model.Utente;
 import my.spring.siw.tud.modelServices.ProjectService;
 import my.spring.siw.tud.modelServices.TagService;
-import my.spring.siw.tud.modelServices.TaskService;
 import my.spring.siw.tud.modelServices.UserService;
+import my.spring.siw.tud.myUtils.*;
 
 @Controller
 public class ProjectController {
@@ -32,8 +32,6 @@ public class ProjectController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private TaskService taskService;
 
 	@Autowired
 	private Session sessionData;
@@ -49,10 +47,8 @@ public class ProjectController {
 		Utente currentUser = sessionData.getLoggedUser(); 
 		
 		toPersist.setOwner(currentUser);
-		List<Project> owned = this.projectService.findByOwner(currentUser);
-		owned.add(toPersist);
-		currentUser.setOwnedProjects(owned);
-		
+		currentUser.getOwnedProjects().add(toPersist);
+
 		this.projectService.saveProject(toPersist);
 		this.userService.saveUser(currentUser);
 
@@ -63,8 +59,7 @@ public class ProjectController {
 	public String showOwned(Model model) {
 		Credentials currentCredentials = sessionData.getLoggedCredentials();
 		Utente currentUser = currentCredentials.getUser();
-		
-		List<Project> owned = this.projectService.findByOwner(currentUser); 
+		List<Project> owned = currentUser.getOwnedProjects();
 
 		model.addAttribute("currentUser",currentUser);
 		model.addAttribute("currentCredentials",currentCredentials); 
@@ -73,9 +68,13 @@ public class ProjectController {
 		return "ownedProjects";
 	}
 
-	@RequestMapping(value="/deleteProject/{id}", method= RequestMethod.GET)
+	@RequestMapping(value="/deleteProject/{id}", method = RequestMethod.GET)
 	public String deleteProject(@PathVariable("id") Long id,Model model) {
-		this.projectService.deleteById(id);
+		Project toDelete = this.projectService.findById(id);
+		
+		MyUtil.deleteFromList(this.sessionData.getLoggedUser().getOwnedProjects(),toDelete);
+		this.projectService.delete(toDelete);
+		
 		return "redirect:/showOwnedProjects";
 	}
 
@@ -101,7 +100,7 @@ public class ProjectController {
 		Utente currentUser = currentCredentials.getUser();
 		
 		Project thisProject = this.projectService.findById(id);
-		List<Task> thisProjectTasks = this.taskService.getByProject(thisProject);
+		List<Task> thisProjectTasks = thisProject.getProjectTasks();
 
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("currentCredentials", currentCredentials);
@@ -118,7 +117,7 @@ public class ProjectController {
 		Utente currentUser = currentCredentials.getUser();
 		
 		Project thisProject = this.projectService.findById(id);
-		List<Task> thisProjectTasks = this.taskService.getByProject(thisProject);
+		List<Task> thisProjectTasks = thisProject.getProjectTasks();
 		
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("currentCredentials", currentCredentials);
@@ -135,7 +134,7 @@ public class ProjectController {
 		Project addedTo = this.projectService.findById(projectId);	
 
 		if(newMember == null )
-			redAtts.addFlashAttribute("couldNotAdd",memberUsername +" does not exist"); 
+			redAtts.addFlashAttribute("couldNotAdd",memberUsername + "does not exist"); 
 
 		else if(addedTo.getMembers().contains(newMember))
 			redAtts.addFlashAttribute("couldNotAdd",memberUsername +" is already a member of this project!");
@@ -184,8 +183,8 @@ public class ProjectController {
 		List<Utente> members = toLeave.getMembers();
 		List<Project> visible = this.projectService.findByMembers(currentUser);
 
-		deleteFromList(members,currentUser);
-		deleteFromList(visible,toLeave);
+		MyUtil.deleteFromList(members,currentUser);
+		MyUtil.deleteFromList(visible,toLeave);
 
 		this.userService.saveUser(currentUser);
 		this.projectService.saveProject(toLeave);
@@ -201,8 +200,8 @@ public class ProjectController {
 		List<Utente> members = toKickFrom.getMembers();
 		List<Project> visible = toKick.getVisibleProjects(); 
 
-		deleteFromList(members,toKick);
-		deleteFromList(visible,toKickFrom);
+		MyUtil.deleteFromList(members,toKick);
+		MyUtil.deleteFromList(visible,toKickFrom);
 		
 		List<Task> taskAssigned = this.projectService.getTaskAssigned(toKickFrom,toKick);
 		for(Task t : taskAssigned) { t.setAssignedTo(null);}
@@ -227,13 +226,6 @@ public class ProjectController {
 	}
 
 
-	private <T> void deleteFromList(List<T> list, T item) {
-		Iterator<T> it = list.iterator();
-		while(it.hasNext()) {
-			T current = it.next();
-			if(current.equals(item))
-				it.remove();
-		}
-	}
+
 
 }

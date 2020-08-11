@@ -38,7 +38,6 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
 		.loginPage("/login")
 		.usernameParameter("usernameParameter")
 		.passwordParameter("passwordParameter")
-		.loginProcessingUrl("/login")
 		.defaultSuccessUrl("/profile")
 		.and()
 		.oauth2Login()

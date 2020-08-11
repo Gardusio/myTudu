@@ -45,16 +45,13 @@ public class UserController {
 	public String showUserDetails(Model model) {
 		Credentials current = sessionData.getLoggedCredentials();
 		
-		if(model.getAttribute("changed")!=null)
-			System.out.println(model.getAttribute("changed").toString());
-		
 		model.addAttribute("currentCredentials",current);
 		model.addAttribute("currentUser",current.getUser());
 
 		return "details"; 
 	}
 	
-	
+	//BUG: Users can only update both username and password (due to CredentialValidator logic)
 	@RequestMapping(value="/editDetails", method = RequestMethod.POST)
 	public String editDetails(Model model, RedirectAttributes redirectAttributes,
 			@RequestParam("username") String username, @RequestParam("password") String password) {
@@ -69,7 +66,7 @@ public class UserController {
 		BindingResult credentialsBindingResult = dataBinder.getBindingResult();
 		
 		this.credentialsValidator.validate(newCredentials, credentialsBindingResult);
-		if(!credentialsBindingResult.hasErrors()) {
+		if(!credentialsBindingResult.hasErrors()) { // has error if the user only update pwd, username already exists
 			currentCredentials.setPassword(password);
 			currentCredentials.setUsername(username);
 			this.credService.saveCredentials(currentCredentials);

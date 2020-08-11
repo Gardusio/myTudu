@@ -21,6 +21,7 @@ import my.spring.siw.tud.modelServices.CommentsService;
 import my.spring.siw.tud.modelServices.ProjectService;
 import my.spring.siw.tud.modelServices.TaskService;
 import my.spring.siw.tud.modelServices.UserService;
+import my.spring.siw.tud.myUtils.MyUtil;
 
 @Controller
 public class TaskController {
@@ -71,11 +72,12 @@ public class TaskController {
 	public String deleteTask(@PathVariable("id") Long id, Model model) {
 		Task task=this.taskService.findById(id);
 		Project thisProject = task.getProject();
+		MyUtil.deleteFromList(thisProject.getProjectTasks(), task);
 		this.taskService.deleteTask(task);
 		return "redirect:/projectPage" +"/" + thisProject.getId().toString();
 	}
 
-	//think about ways to avoid needing userService here
+	
 	@RequestMapping(value="/assignTask/{id}", method=RequestMethod.POST)
 	public String assignTask(Model model,
 			@PathVariable("id") Long id,

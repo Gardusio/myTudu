@@ -9,15 +9,21 @@
 		<version>2.3.0.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>my.webApps.tudu</groupId>
 	<artifactId>my.webApps.myTudu</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>Tudù</name>
-	<description>Demo project SIW2020 </description>
+	<version>1</version>
+	<name>TuduTaskManager</name>
 
+	<description>Demo project SIW2020</description>
+	
 	<properties>
 		<java.version>1.8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
+
+
 
 	<dependencies>
 
@@ -61,6 +67,7 @@
 		</dependency>
 
 
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -74,7 +81,6 @@
 		<dependency>
 			<groupId>org.springframework.security.oauth.boot</groupId>
 			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
-			<version>2.1.0.RELEASE</version>
 		</dependency>
 
 		<dependency>
@@ -89,6 +95,7 @@
 
 	</dependencies>
 
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -99,6 +106,11 @@
 			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
+				<version>2.2.0</version>
+				<configuration>
+					<version>1</version>
+					<projectId>tudutaskmanager</projectId>
+				</configuration>
 			</plugin>
 
 		</plugins>
@@ -135,4 +147,15 @@
 		</pluginRepository>
 	</pluginRepositories>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Hoxton.SR5</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

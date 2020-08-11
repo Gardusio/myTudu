@@ -1,0 +1,25 @@
+runtime: java
+env: flex
+runtime_config:
+   jdk: openjdk8
+
+api_version: '1.0'
+
+readiness_check:
+  check_interval_sec: 5
+  timeout_sec: 4
+  failure_threshold: 2
+  success_threshold: 2
+  app_start_timeout_sec: 1800
+  
+  
+resources:
+  memory_gb: 4
+  cpu: 1
+  disk_size_gb: 10
+  
+
+
+handlers:
+- url: /.*
+  script: this field is required, but ignored

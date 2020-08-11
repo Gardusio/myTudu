@@ -75,6 +75,7 @@ public class AuthController {
 		return "signUp";
 	}
 		
+		@SuppressWarnings("unchecked")
 		@RequestMapping(value="/login", method = RequestMethod.GET)
 		public String customLoginHandler(Model model) {  
 			
